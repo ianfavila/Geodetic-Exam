@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geodetic Engineering Reviewer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --health-color: #27ae60;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f6fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+            color: var(--secondary-color);
+        }
+
+        /* Navigation Styles */
+        nav ul {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Login Button Style */
+        .login-button {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 15px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .login-button:hover {
+            background-color: #c0392b;
+        }
+
+        /* Profile Picture Style */
+        .profile-picture {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid white;
+            transition: transform 0.3s;
+        }
+
+        .profile-picture:hover {
+            transform: scale(1.1);
+        }
+
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Login Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 80%;
+            max-width: 400px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .login-submit {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .login-submit:hover {
+            background-color: #2980b9;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        /* Updated Button Styles - Fixed proportional sizing */
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            justify-content: center;
+            gap: 20px;
+            margin-top: 25px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .action-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 20px;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            min-height: 60px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .action-button i {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        .primary-button {
+            background-color: var(--accent-color);
+        }
+
+        .primary-button:hover {
+            background-color: #c0392b;
+        }
+
+        .secondary-button {
+            background-color: #ff9800;
+        }
+        
+        .secondary-button:hover {
+            background-color: #f57c00;
+        }
+        
+        .tertiary-button {
+            background-color: #e91e63;
+        }
+        
+        .tertiary-button:hover {
+            background-color: #c2185b;
+        }
+
+        .health-button {
+            background-color: var(--health-color);
+        }
+        
+        .health-button:hover {
+            background-color: #219653;
+        }
+
+        .notebook-button {
+            background-color: #9c27b0;
+        }
+        
+        .notebook-button:hover {
+            background-color: #7b1fa2;
+        }
+
+        /* Subjects Section */
+        .subjects {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            display: inline-block;
+        }
+
+        .section-title h2:after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background-color: var(--secondary-color);
+            margin: 10px auto 0;
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .subject-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .subject-icon {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        .subject-card h3 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .subject-card p {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+
+        .subject-card .subject-button {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .subject-card .subject-button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Features Section */
+        .features {
+            background-color: var(--light-color);
+            padding: 60px 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .feature-icon {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            min-width: 40px;
+        }
+
+        .feature-content h3 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        /* Manifest Section */
+        .manifest-section {
+            padding: 60px 0;
+            background-color: #f8f9fa;
+        }
+        
+        .manifest-box {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .manifest-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        .manifest-content {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        
+        .manifest-image {
+            flex: 1;
+            max-width: 50%;
+        }
+        
+        .manifest-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+        
+        .manifest-text {
+            flex: 1;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .manifest-text h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 2.2rem;
+        }
+        
+        .manifest-text p {
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+        
+        .manifest-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .manifest-button:hover {
+            background-color: #3e8e41;
+        }
+        
+        .manifest-button i {
+            margin-right: 8px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 40px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .footer-section h3:after {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 2px;
+            background-color: var(--secondary-color);
+            margin-top: 5px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .social-links a {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #bdc3c7;
+        }
+
+        /* Hamburger Menu Styles */
+        .hamburger-menu {
+            display: none;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
+            z-index: 100;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hamburger-menu {
+                display: block;
+            }
+            
+            .header-content {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 0 15px;
+            }
+            
+            nav {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--primary-color);
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.5s ease;
+                z-index: 1000;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            
+            nav.active {
+                max-height: 400px;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                padding: 10px 0;
+                gap: 15px;
+            }
+            
+            nav li {
+                width: 100%;
+                text-align: center;
+            }
+            
+            nav a {
+                display: block;
+                padding: 10px;
+                width: 100%;
+            }
+            
+            .login-button {
+                margin: 10px auto;
+                display: block;
+                width: 80%;
+                max-width: 200px;
+                padding: 10px;
+            }
+            
+            .profile-picture {
+                margin: 10px auto;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .feature-item {
+                flex-direction: row;
+                text-align: left;
+            }
+            
+            .feature-icon {
+                margin: 0;
+            }
+            
+            /* Mobile button layout */
+            .button-container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                max-width: 300px;
+            }
+
+            .action-button {
+                min-height: 55px;
+                font-size: 13px;
+            }
+            
+            /* Responsive manifest section */
+            .manifest-content {
+                flex-direction: column;
+            }
+            
+            .manifest-image {
+                max-width: 100%;
+            }
+            
+            .manifest-text {
+                padding: 20px;
+            }
+            
+            .manifest-text h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .button-container {
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 600px;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .button-container {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-globe-americas logo-icon"></i>
+                <span>Geodetic Engineering Reviewer</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="news.html">News</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                    <li><a href="protest.html">Protest</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="aboutus.html">About Us</a></li>
+                    <li><button id="loginBtn" class="login-button">Login</button></li>
+                    <li>
+                        <a href="profile.html" class="profile-picture">
+                            <img src="/api/placeholder/40/40" alt="Profile Picture">
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <button class="hamburger-menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+    
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="login-submit">Login</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Geodetic Engineering Reviewer</h1>
+            <p>Test your knowledge with our comprehensive self-assessment platform designed specifically for Geodetic Engineering students and examinees.</p>
+            <div class="button-container">
+                <a href="#subjects" class="action-button primary-button"><i class="fas fa-pencil-alt"></i> Take Practice Exam</a>
+                <a href="indexcards.html" class="action-button secondary-button"><i class="fas fa-clipboard"></i> Review with Index Cards</a>
+                <a href="notes.html" class="action-button notebook-button"><i class="fas fa-book"></i> Digital Notebook</a>
+                <a href="pomodoro.html" class="action-button tertiary-button"><i class="fas fa-clock"></i> Review with Pomodoro</a>
+                <a href="meditate.html" class="action-button health-button"><i class="fas fa-spa"></i> Health Break</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Subjects Section -->
+    <section class="subjects" id="subjects">
+        <div class="container">
+            <div class="section-title">
+                <h2>Select a Subject</h2>
+            </div>
+            <div class="subjects-grid">
+                <!-- Geodesy -->
+                <div class="subject-card" onclick="startExam('Geodesy')">
+                    <div class="subject-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Geodesy</h3>
+                    <p>Geodetic Surveying, Geodetic Astronomy, Geodetic Triangulation, Geodetic Leveling, Gravity Measurement, Least Squares, Random/Other Related Topics.</p>
+                    <a href="#" class="subject-button">Start Exam</a>
+                </div>
+                
+                <!-- Mathematics -->
+                <div class="subject-card" onclick="startExam('Mathematics')">
+                    <div class="subject-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3>Mathematics</h3>
+                    <p>Algebra, Solid Geometry, Analytical Geometry, Trigonometry, Calculus, Engineering Economics, Mechanics, Least Squares, Random/Other Related Topics.</p>
+                    <a href="#" class="subject-button">Start Exam</a>
+                </div>
+                
+                <!-- Theory & Practice of Surveying -->
+                <div class="subject-card" onclick="startExam('Theory and Practice of Surveying')">
+                    <div class="subject-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3>Theory & Practice of Surveying</h3>
+                    <p>Property Surveying, Isolated Surveys, Mineral & Mining Surveys, Cadastral Land Surveying, Astronomy, Earthworks, Hydrographic & Topographic Surveying, Photogrammetry, Engineering & Construction Surveys, Random/Other Related Topics.</p>
+                    <a href="#" class="subject-button">Start Exam</a>
+                </div>
+                
+                <!-- Laws, Rules, and Regulations -->
+                <div class="subject-card" onclick="startExam('Laws, Rules and Regulations')">
+                    <div class="subject-icon">
+                        <i class="fas fa-gavel"></i>
+                    </div>
+                    <h3>Laws, Rules, and Regulations</h3>
+                    <p>Public Land Laws and Natural Resources, Laws on Property, Land Reform Laws, Land Registration Laws on Obligation and Contracts, Professional & Ethical Practice, Rules & Regulations Governing Land Surveying, Random/Other Related Topics.</p>
+                    <a href="#" class="subject-button">Start Exam</a>
+                </div>
+                
+                <!-- Cartography -->
+                <div class="subject-card" onclick="startExam('Cartography')">
+                    <div class="subject-icon">
+                        <i class="fas fa-map"></i>
+                    </div>
+                    <h3>Cartography</h3>
+                    <p>Plotting and Mapping of Isolated Surveys, Mineral Surveys, Cadastral Surveys, Hydrographic Surveys, Photogrammetric Surveys, Map Projections, Random/Other Related Topics.</p>
+                    <a href="#" class="subject-button">Start Exam</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Features</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-random"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Randomized Questions</h3>
+                        <p>Each exam contains 80 questions randomly selected from a database but equally distributed among topics.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Performance Analytics</h3>
+                        <p>Get detailed analytics on your performance with breakdowns by topic to identify your strengths and weaknesses.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Timed Exams</h3>
+                        <p>Practice under real exam conditions with a 120-minute timer to improve your time management skills.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-clipboard"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Index Cards</h3>
+                        <p>Create and review flashcards organized by subject to enhance your learning and memory retention.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Digital Notebook</h3>
+                        <p>Take organized notes, create study guides, and keep track of important concepts and formulas in your digital notebook.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Pomodoro Timer</h3>
+                        <p>Study efficiently with the Pomodoro technique - focused work intervals followed by short breaks to maximize retention and minimize burnout.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Meditation Breaks</h3>
+                        <p>Take health breaks with guided meditations to refresh your mind, reduce stress, and improve focus during long study sessions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Manifest Section -->
+    <section class="manifest-section">
+        <div class="container">
+            <div class="manifest-box">
+                <div class="manifest-content">
+                    <div class="manifest-image">
+                        <img src="/api/placeholder/600/400" alt="Geodetic Engineering Community">
+                    </div>
+                    <div class="manifest-text">
+                        <h2><strong>TOGETHER, WE WILL PASS</strong></h2>
+                        <p><em>For every future Geodetic Engineer: Share your dream, prayer, or intention..</em></p>
+                        <a href="manifest.html" class="manifest-button">
+                            <i class="fas fa-hand-holding-heart"></i> Share Your Journey
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About</h3>
+                    <p>The Geodetic Engineering Reviewer is an online self-assessment platform designed to help students prepare for their examinations.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="indexcards.html">Index Cards</a></li>
+                        <li><a href="notes.html">Digital Notebook</a></li>
+                        <li><a href="pomodoro.html">Pomodoro Timer</a></li>
+                        <li><a href="meditate.html">Health Break</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="feedback.html">Feedback</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Manila, Philippines</li>
+                        <li><i class="fas fa-phone"></i> +63 123 456 7890</li>
+                        <li><i class="fas fa-envelope"></i> info@geodeticreviewer.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Geodetic Engineering Reviewer. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Get the modal
+        const loginModal = document.getElementById("loginModal");
+        
+        // Get the button that opens the modal
+        const loginBtn = document.getElementById("loginBtn");
+        
+        // Get the <span> element that closes the modal
+        const loginClose = document.getElementsByClassName("close")[0];
+        
+        // Forms
+        const loginForm = document.getElementById("loginForm");
+        
+        // When the user clicks the login button, open the login modal 
+        loginBtn.onclick = function() {
+            loginModal.style.display = "block";
+        }
+        
+        // When the user clicks on <span> (x), close the modal
+        loginClose.onclick = function() {
+            loginModal.style.display = "none";
+        }
+        
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == loginModal) {
+                loginModal.style.display = "none";
+            }
+        }
+        
+        // Handle login form submission
+        loginForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            
+            // Check if it's an admin email
+            if (email.endsWith("gmail.com")) {
+                // Redirect directly to admin page without password check
+                window.location.href = "admin.html";
+            } else if (email === "geodeticeexam.gmail.com" && password === "shamgod1062") {
+                // Original admin credentials still work too
+                window.location.href = "admin.html";
+            } else {
+                // For non-admin users or incorrect credentials
+                alert("Invalid credentials. Please try again.");
+            }
+        });
+        
+        // Function to start exam
+        function startExam(subject) {
+            // Store the selected subject in local storage
+            localStorage.setItem('selectedSubject', subject);
+            // Redirect to the exam page
+            window.location.href = 'exam.html';
+        }
+        
+        // Hamburger menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburgerBtn = document.querySelector('.hamburger-menu');
+            const nav = document.querySelector('nav');
+            
+            // Toggle navigation menu when hamburger is clicked
+            hamburgerBtn.addEventListener('click', function() {
+                nav.classList.toggle('active');
+                
+                // Change icon based on menu state
+                const icon = hamburgerBtn.querySelector('i');
+                if (nav.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                const isClickInsideNav = nav.contains(event.target);
+                const isClickOnHamburger = hamburgerBtn.contains(event.target);
+                
+                if (!isClickInsideNav && !isClickOnHamburger && nav.classList.contains('active')) {
+                    nav.classList.remove('active');
+                    const icon = hamburgerBtn.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // Close menu when clicking on a nav link
+            const navLinks = nav.querySelectorAll('a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        nav.classList.remove('active');
+                        const icon = hamburgerBtn.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            });
+            
+            // Close menu when window is resized above mobile breakpoint
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768 && nav.classList.contains('active')) {
+                    nav.classList.remove('active');
+                    const icon = hamburgerBtn.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

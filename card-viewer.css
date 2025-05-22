@@ -1,0 +1,1775 @@
+/* Enhanced Topic Management Styles */
+
+/* Topic Hierarchy */
+.topics-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.subtopics-container {
+    margin-left: 30px;
+    margin-top: 10px;
+    border-left: 2px solid #e0e7f1;
+    padding-left: 15px;
+}
+
+/* Topic Card Count Badge */
+.topic-card-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: #4285f4;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+}
+
+.card-count {
+    color: #666;
+    font-size: 13px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Topic Actions */
+.topic-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    padding-left: 10px;
+}
+
+.add-subtopic-btn, 
+.delete-topic-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    color: #555;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.add-subtopic-btn:hover, 
+.delete-topic-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    transform: scale(1.1);
+}
+
+.delete-topic-btn:hover {
+    color: #f44336;
+}
+
+.add-subtopic-btn.disabled, 
+.delete-topic-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Inline Card Editing */
+.edit-card-form {
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+}
+
+.edit-card-form .form-row {
+    margin-bottom: 15px;
+}
+
+.edit-card-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+}
+
+.edit-card-form textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    min-height: 80px;
+    resize: vertical;
+}
+
+.edit-card-form .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.edit-card-form .cancel-btn,
+.edit-card-form .save-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.edit-card-form .cancel-btn {
+    background-color: #f0f0f0;
+    color: #555;
+    border: none;
+}
+
+.edit-card-form .save-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+}
+
+.edit-card-form .cancel-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.edit-card-form .save-btn:hover {
+    background-color: #43a047;
+}
+
+/* Enhanced Topic Folder Visuals */
+.topic-folder {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    border-left: 3px solid transparent;
+}
+
+.topic-folder:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.topic-folder .folder-icon {
+    flex: 0 0 40px;
+    font-size: 20px;
+    color: #f6b93f;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.topic-folder .folder-content {
+    flex: 1;
+    padding-left: 15px;
+}
+
+/* Main topics vs Subtopics styles */
+.topic-folder.has-subtopics {
+    border-left-color: #4285f4;
+}
+
+.subtopics-container .topic-folder {
+    border-left-color: #8bc34a;
+}
+
+.subtopics-container .topic-folder .folder-icon {
+    color: #8bc34a;
+}
+
+/* Expanded/Collapsed topic indicators */
+.topic-folder.has-subtopics::after {
+    content: "\f054";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #4285f4;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s;
+}
+
+.topic-folder.has-subtopics.expanded::after {
+    transform: translateY(-50%) rotate(90deg);
+}
+
+/* Enhanced Card Statistics */
+.card-statistics {
+    background-color: #f5f5f5;
+    border-radius: 6px;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-statistics .stat-item {
+    text-align: center;
+    padding: 0 15px;
+}
+
+.card-statistics .stat-number {
+    font-size: 20px;
+    font-weight: bold;
+    color: #4285f4;
+    display: block;
+}
+
+.card-statistics .stat-label {
+    font-size: 13px;
+    color: #666;
+}
+
+/* Inline edit mode styles */
+.index-card.edit-mode {
+    border: 2px dashed #4285f4;
+    background-color: #f9f9f9;
+}
+
+/* Enhanced topic confirmation dialog */
+.confirmation-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    padding: 25px;
+    z-index: 1100;
+    max-width: 90%;
+    width: 400px;
+    text-align: center;
+}
+
+.confirmation-dialog h3 {
+    margin-top: 0;
+    color: #d32f2f;
+}
+
+.confirmation-dialog p {
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.confirmation-dialog .actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.confirmation-dialog .cancel-btn {
+    background-color: #f0f0f0;
+    color: #555;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.confirmation-dialog .confirm-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.confirmation-dialog .cancel-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.confirmation-dialog .confirm-btn:hover {
+    background-color: #d32f2f;
+}
+
+.confirmation-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+/* Add, Edit, Delete animations */
+@keyframes highlight {
+    0% {
+        background-color: rgba(76, 175, 80, 0.2);
+    }
+    100% {
+        background-color: transparent;
+    }
+}
+
+.highlight-new {
+    animation: highlight 2s ease-out;
+}
+
+@keyframes deleted {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+
+.deleting {
+    animation: deleted 0.5s ease-out forwards;
+}
+
+/* Empty State Styles */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #f5f7fa;
+    border-radius: 8px;
+    margin: 30px 0;
+}
+
+.empty-state i {
+    font-size: 48px;
+    color: #bbb;
+    margin-bottom: 15px;
+}
+
+.empty-state h3 {
+    margin-top: 0;
+    color: #555;
+}
+
+.empty-state p {
+    color: #777;
+    margin-bottom: 20px;
+}
+
+.empty-state .action-btn {
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.empty-state .action-btn:hover {
+    background-color: #3b78e7;
+}
+
+/* Card Viewer Hero Section */
+.card-viewer-hero {
+    background-color: #f2f7ff;
+    padding: 40px 0;
+    border-bottom: 1px solid #e0e7f1;
+}
+
+.breadcrumb {
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.breadcrumb a {
+    color: #3366cc;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.separator {
+    margin: 0 8px;
+    color: #777;
+}
+
+.index-page-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.back-btn {
+    text-decoration: none;
+    color: #555;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 8px 15px;
+    border-radius: 4px;
+}
+
+.back-btn:hover {
+    background-color: #e4e4e4;
+}
+
+.back-btn i {
+    margin-right: 5px;
+}
+
+.edit-status {
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.edit-locked {
+    background-color: #f0f0f0;
+    color: #777;
+}
+
+.edit-unlocked {
+    background-color: #e6f7e6;
+    color: #2e7d32;
+}
+
+.unlock-edit-btn {
+    background-color: #e0e0e0;
+    color: #444;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.unlock-edit-btn:hover {
+    background-color: #d4d4d4;
+}
+
+.add-topic-btn {
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.add-topic-btn:hover {
+    background-color: #3b78e7;
+}
+
+.add-topic-btn.disabled {
+    background-color: #a5c2f7;
+    cursor: not-allowed;
+}
+
+.fullscreen-btn, .exit-fullscreen-btn {
+    background-color: #f0f0f0;
+    color: #555;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: auto;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.fullscreen-btn:hover, .exit-fullscreen-btn:hover {
+    background-color: #e4e4e4;
+    transform: scale(1.05);
+}
+
+.exit-fullscreen-btn {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Cards Section Styles */
+.cards-section {
+    padding: 40px 0;
+    min-height: 400px;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.card-container .single-card {
+    grid-column: 1 / -1;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.index-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.index-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-content {
+    padding: 20px;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none; /* Prevent text selection when tapping */
+}
+
+/* Make question text normal weight instead of bold */
+.card-front h3 {
+    font-weight: normal;
+    margin: 0;
+}
+
+/* Also ensure question text in mastery cards is normal weight */
+.mastery-card .card-front h3 {
+    font-weight: normal;
+}
+
+.card-back p {
+    margin: 0;
+}
+
+.card-tools {
+    padding: 10px 15px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.flip-btn {
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    flex-grow: 1;
+}
+
+.flip-btn:hover {
+    background-color: #3b78e7;
+}
+
+.view-single-btn {
+    background-color: #f0f0f0;
+    color: #555;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.view-single-btn:hover {
+    background-color: #e4e4e4;
+}
+
+.view-cards-btn {
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.view-cards-btn:hover {
+    background-color: #3b78e7;
+    transform: scale(1.05);
+}
+
+.shuffle-btn {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    font-size: 14px;
+}
+
+.shuffle-btn:hover {
+    background-color: #5a6268;
+    transform: scale(1.05);
+}
+
+.delete-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.delete-btn:hover {
+    background-color: #e53935;
+    transform: scale(1.05);
+}
+
+.delete-btn.disabled {
+    background-color: #ffcdd2;
+    cursor: not-allowed;
+}
+
+.edit-button {
+    background-color: #ffc107;
+    color: #333;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-button:hover {
+    background-color: #ffb300;
+}
+
+.edit-button.disabled {
+    background-color: #ffe082;
+    cursor: not-allowed;
+}
+
+.card-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+    gap: 20px;
+    background-color: #f5f7fa;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-btn {
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, transform 0.2s;
+    font-size: 20px;
+}
+
+.nav-btn:hover {
+    background-color: #3b78e7;
+    transform: scale(1.05);
+}
+
+.nav-btn:disabled {
+    background-color: #a5c2f7;
+    cursor: not-allowed;
+}
+
+.prev-btn i {
+    margin-right: 8px;
+}
+
+.next-btn i {
+    margin-left: 8px;
+}
+
+#cardCounter {
+    font-size: 16px;
+    color: #444;
+    font-weight: 500;
+}
+
+/* Loading and Error Messages */
+.loading-message, .error-message, .no-cards-message {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.error-message {
+    color: #f44336;
+}
+
+.no-cards-message {
+    color: #777;
+}
+
+.floating-add-btn {
+    background-color: #4CAF50;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 16px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.floating-add-btn:hover {
+    background-color: #3e9142;
+    transform: scale(1.05);
+}
+
+.floating-add-btn.disabled {
+    background-color: #9fcba1;
+    cursor: not-allowed;
+}
+
+/* Inline Add Card Form */
+.inline-add-card {
+    background-color: #f9f9f9;
+    padding: 30px 0;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.add-card-form {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.add-card-form h2 {
+    margin-top: 0;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.form-row {
+    margin-bottom: 20px;
+}
+
+.form-row label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 500;
+}
+
+.form-row textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 15px;
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.cancel-btn {
+    background-color: #f0f0f0;
+    color: #555;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cancel-btn:hover {
+    background-color: #e4e4e4;
+}
+
+.save-btn {
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.save-btn:hover {
+    background-color: #3b78e7;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #777;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .card-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .topics-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .index-page-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .index-page-actions > * {
+        margin-bottom: 10px;
+    }
+    
+    .fullscreen-btn {
+        margin-left: 0;
+        align-self: flex-end;
+    }
+    
+    .card-navigation {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .modal-content {
+        margin: 20% auto;
+        width: 95%;
+    }
+}
+
+/* Fullscreen Mode Styles */
+.cards-section:-webkit-full-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 0;
+    background-color: #f5f7fa; /* Off-white, easier on the eyes */
+}
+
+.cards-section:-moz-full-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 0;
+    background-color: #f5f7fa;
+}
+
+.cards-section:-ms-fullscreen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 0;
+    background-color: #f5f7fa;
+}
+
+.cards-section:fullscreen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 0;
+    background-color: #f5f7fa;
+}
+
+.cards-section:fullscreen .container {
+    width: 90%;
+    max-width: 1000px;
+}
+
+.cards-section:fullscreen .single-card {
+    max-width: 800px;
+    transform: scale(1.1);
+    background-color: white;
+}
+
+.cards-section:fullscreen .card-content {
+    min-height: 300px;
+}
+
+.cards-section:fullscreen .card-navigation {
+    margin-top: 50px;
+    background-color: white;
+}
+
+/* Edit Controls */
+.edit-control.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Updated Mastery Controls - More Compact Design with centered elements */
+.mastery-controls {
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+    background-color: #f0f2f5;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 10px auto;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    position: relative;
+}
+
+/* Center the mastery progress section */
+.mastery-progress {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    max-width: 500px;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+.progress-header h3 {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+}
+
+.reset-mastery-btn {
+    background-color: #f0f0f0;
+    color: #333;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.2s;
+    position: absolute;
+    right: 0;
+}
+
+.reset-mastery-btn:hover {
+    background-color: #e0e0e0;
+}
+
+/* Make sure the progress bar is centered and full width */
+.mastery-progress-bar {
+    height: 10px;
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    margin: 10px auto;
+}
+
+.mastery-progress-bar .mastered {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+}
+
+.mastery-progress-bar .needs-practice {
+    height: 100%;
+    background-color: #ff9800;
+    transition: width 0.5s ease;
+}
+
+.mastery-progress-bar .unknown {
+    height: 100%;
+    background-color: #9e9e9e;
+    transition: width 0.5s ease;
+}
+
+/* Center the mastery stats */
+.mastery-stats {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 25px;
+    margin-top: 8px;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-label {
+    font-size: 11px;
+    color: #666;
+}
+
+.stat-number {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 2px;
+}
+
+.mastered-stat .stat-number {
+    color: #4caf50;
+}
+
+.needs-practice-stat .stat-number {
+    color: #ff9800;
+}
+
+.unknown-stat .stat-number {
+    color: #9e9e9e;
+}
+
+/* Add keyboard shortcuts icon */
+.mastery-shortcuts-icon {
+    align-self: flex-end;
+    font-size: 14px;
+    color: #666;
+    margin-top: -5px;
+    cursor: help;
+}
+
+.mastery-shortcuts-icon i:hover {
+    color: #333;
+}
+
+/* Mastery Mode Button */
+.mastery-mode-btn {
+    background-color: #673ab7;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.mastery-mode-btn:hover {
+    background-color: #5e35b1;
+    transform: translateY(-2px);
+}
+
+.mastery-mode-btn.active {
+    background-color: #4a148c;
+}
+
+.mastery-mode-btn i {
+    font-size: 16px;
+}
+
+/* Mastery
+/* Card Image Styles */
+.card-image {
+    margin: 15px 0;
+    text-align: center;
+    max-height: 400px;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.card-image-content {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+/* Image Preview Styles */
+.image-preview-container {
+    position: relative;
+    margin: 10px 0;
+    max-width: 100%;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.image-preview {
+    max-width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+}
+
+.remove-image-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.remove-image-btn:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Upload Progress Bar */
+.upload-progress-container {
+    margin-top: 10px;
+    width: 100%;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+#uploadProgress {
+    height: 5px;
+    background-color: #4caf50;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* Card Edit Form with Image */
+.edit-card-form {
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+}
+
+/* Enhanced Card Styles for Single Card View */
+.single-card .card-image {
+    margin: 20px 0;
+    max-height: 450px;
+}
+
+.single-card .card-image-content {
+    max-height: 450px;
+}
+
+/* Responsive Styles for Images */
+@media (max-width: 768px) {
+    .card-image {
+        max-height: 300px;
+    }
+    
+    .card-image-content {
+        max-height: 300px;
+    }
+    
+    .single-card .card-image {
+        max-height: 350px;
+    }
+    
+    .single-card .card-image-content {
+        max-height: 350px;
+    }
+    
+    .image-preview {
+        max-height: 150px;
+    }
+}
+
+/* Image Upload Input Styling */
+.image-upload-input {
+    border: 1px dashed #ddd;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.image-upload-input:hover {
+    border-color: #2196f3;
+    background-color: #f0f7ff;
+}
+
+/* Image Animation */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.card-image {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Mastery Mode Card Images */
+.mastery-card .card-image {
+    margin: 15px 0;
+}
+
+/* For Print View */
+@media print {
+    .card-image {
+        max-height: none;
+        page-break-inside: avoid;
+    }
+    
+    .card-image-content {
+        max-height: none;
+    }
+}
+/* Card Image Styles */
+.card-image {
+    margin: 15px 0;
+    text-align: center;
+    max-height: 400px;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.card-image-content {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+/* Image Preview Styles */
+.image-preview-container {
+    position: relative;
+    margin: 10px 0;
+    max-width: 100%;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.image-preview {
+    max-width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+}
+
+.remove-image-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.remove-image-btn:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Upload Progress Bar */
+.upload-progress-container {
+    margin-top: 10px;
+    width: 100%;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+#uploadProgress {
+    height: 5px;
+    background-color: #4caf50;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* Card Edit Form with Image */
+.edit-card-form {
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+}
+
+/* Enhanced Card Styles for Single Card View */
+.single-card .card-image {
+    margin: 20px 0;
+    max-height: 450px;
+}
+
+.single-card .card-image-content {
+    max-height: 450px;
+}
+
+/* Responsive Styles for Images */
+@media (max-width: 768px) {
+    .card-image {
+        max-height: 300px;
+    }
+    
+    .card-image-content {
+        max-height: 300px;
+    }
+    
+    .single-card .card-image {
+        max-height: 350px;
+    }
+    
+    .single-card .card-image-content {
+        max-height: 350px;
+    }
+    
+    .image-preview {
+        max-height: 150px;
+    }
+}
+
+/* Image Upload Input Styling */
+.image-upload-input {
+    border: 1px dashed #ddd;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.image-upload-input:hover {
+    border-color: #2196f3;
+    background-color: #f0f7ff;
+}
+
+/* Image Animation */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Image Animation */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.card-image {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Mastery Mode Card Images */
+.mastery-card .card-image {
+    margin: 15px 0;
+}
+
+/* For Print View */
+@media print {
+    .card-image {
+        max-height: none;
+        page-break-inside: avoid;
+    }
+    
+    .card-image-content {
+        max-height: none;
+    }
+}
+/* Image Animation */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.card-image {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Mastery Mode Card Images */
+.mastery-card .card-image {
+    margin: 15px 0;
+}
+
+/* For Print View */
+@media print {
+    .card-image {
+        max-height: none;
+        page-break-inside: avoid;
+    }
+    
+    .card-image-content {
+        max-height: none;
+    }
+}
+/* Add these styles to your CSS file (e.g., card-viewer.css) */
+
+/* Calculator Section Styles */
+.calculator-section {
+    padding: 30px 0;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.calculator-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.formula-display {
+    background-color: #f0f5ff;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border-left: 4px solid #0056b3;
+}
+
+.formula-display h3 {
+    margin: 0 0 10px 0;
+    color: #0056b3;
+    font-size: 18px;
+}
+
+.formula {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+    padding: 10px;
+    background: white;
+    border-radius: 4px;
+    border: 1px dashed #ccc;
+}
+
+.calculator-form {
+    margin-bottom: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form-row {
+    flex: 1;
+    min-width: 250px;
+}
+
+.input-hint {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.calculate-btn, .reset-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.calculate-btn {
+    background-color: #0056b3;
+    color: white;
+}
+
+.calculate-btn:hover {
+    background-color: #004494;
+}
+
+.reset-btn {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.reset-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.calculation-result {
+    margin-top: 25px;
+    padding: 15px;
+    background-color: #f6fff6;
+    border-radius: 6px;
+    border-left: 4px solid #28a745;
+}
+
+.result-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.result-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.result-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: #28a745;
+    font-family: 'Courier New', monospace;
+    background: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+}
+
+.calculator-instructions {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.calculator-instructions h3 {
+    margin-top: 0;
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.calculator-instructions ol {
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+
+.calculator-instructions li {
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.calculator-instructions p {
+    color: #555;
+}
+
+.tool-btn {
+    padding: 8px 12px;
+    border: none;
+    background-color: #0056b3;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-right: 10px;
+    transition: background-color 0.2s;
+}
+
+.tool-btn:hover {
+    background-color: #004494;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .input-group {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .form-row {
+        width: 100%;
+    }
+    
+    .formula {
+        font-size: 16px;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding: 10px 5px;
+    }
+    
+    .result-display {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .result-value {
+        align-self: stretch;
+        text-align: center;
+    }
+}
+/* === Existing card-viewer.css styles above this line === */
+
+/* NEW: Sort Controls Styles */
+.sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between label and select */
+    margin-left: 10px; /* Adjust to position it within .index-page-actions */
+    padding: 6px 10px;
+    background-color: rgba(255, 255, 255, 0.8); /* Light background for better visibility */
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.sort-controls label {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px; /* Space between icon and text */
+}
+
+.sort-controls label i {
+    color: #555; /* Icon color */
+}
+
+#sortOrder {
+    padding: 6px 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    background-color: white;
+    cursor: pointer;
+    min-width: 120px; /* Give it some decent width */
+}
+
+#sortOrder:hover {
+    border-color: #aaa;
+}
+
+#sortOrder:focus {
+    outline: none;
+    border-color: #2196f3; /* Highlight on focus */
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+}
+
+/* Adjustments for .index-page-actions if it uses flexbox */
+.index-page-actions {
+    /* Ensure it can wrap items if they overflow */
+    flex-wrap: wrap; 
+    /* Add some gap between all items in the actions bar */
+    gap: 10px; 
+}
+
+
+/* === Existing card-viewer.css styles below this line === */

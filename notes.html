@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject Notebook</title>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Subject Selection Screen -->
+        <div class="subject-selection" id="subjectSelection">
+            <div class="header">
+                <div class="header-top">
+                    <button class="home-btn-main" onclick="goHome()" title="Home">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9,22 9,12 15,12 15,22"/>
+                        </svg>
+                    </button>
+                </div>
+                <h1>Subject Notebook</h1>
+                <p>Select a Subject</p>
+            </div>
+            
+            <div class="subjects-grid">
+                <div class="subject-card" onclick="openSubject('Geodesy')" data-color="#2E86AB">
+                    <div class="subject-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                            <path d="M2 12h20"/>
+                            <path d="M12 2v20"/>
+                        </svg>
+                    </div>
+                    <h3>Geodesy</h3>
+                    <div class="note-count" id="count-Geodesy">0 notes</div>
+                </div>
+
+                <div class="subject-card" onclick="openSubject('Mathematics')" data-color="#A23B72">
+                    <div class="subject-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <path d="M9 9h6v6H9z"/>
+                            <path d="M9 3v6"/>
+                            <path d="M15 9v6"/>
+                            <path d="M3 9h6"/>
+                            <path d="M9 15h6"/>
+                        </svg>
+                    </div>
+                    <h3>Mathematics</h3>
+                    <div class="note-count" id="count-Mathematics">0 notes</div>
+                </div>
+
+                <div class="subject-card" onclick="openSubject('Theory & Practice of Surveying')" data-color="#F18F01">
+                    <div class="subject-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 6l3-3 3 3"/>
+                            <path d="M6 3v12"/>
+                            <path d="M18 6l-3-3-3 3"/>
+                            <path d="M15 3v12"/>
+                            <circle cx="12" cy="18" r="3"/>
+                            <path d="M9 18h6"/>
+                        </svg>
+                    </div>
+                    <h3>Theory & Practice of Surveying</h3>
+                    <div class="note-count" id="count-Theory & Practice of Surveying">0 notes</div>
+                </div>
+
+                <div class="subject-card" onclick="openSubject('Laws, Rules, and Regulations')" data-color="#C73E1D">
+                    <div class="subject-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14,2 14,8 20,8"/>
+                            <path d="M12 18v-6"/>
+                            <path d="M9 15h6"/>
+                            <circle cx="10" cy="11" r="1"/>
+                            <circle cx="14" cy="11" r="1"/>
+                        </svg>
+                    </div>
+                    <h3>Laws, Rules, and Regulations</h3>
+                    <div class="note-count" id="count-Laws, Rules, and Regulations">0 notes</div>
+                </div>
+
+                <div class="subject-card" onclick="openSubject('Cartography')" data-color="#3A5A40">
+                    <div class="subject-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="1 6 8 2 16 6 23 2 23 18 16 22 8 18 1 22"/>
+                            <line x1="8" y1="2" x2="8" y2="18"/>
+                            <line x1="16" y1="6" x2="16" y2="22"/>
+                            <circle cx="12" cy="8" r="2"/>
+                            <path d="M10 10l4 4"/>
+                        </svg>
+                    </div>
+                    <h3>Cartography</h3>
+                    <div class="note-count" id="count-Cartography">0 notes</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main App Interface -->
+        <div class="main-app" id="mainApp" style="display: none;">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-header">
+                    <button class="back-btn" onclick="goBackToSubjects()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 12H5"/>
+                            <path d="M12 19l-7-7 7-7"/>
+                        </svg>
+                    </button>
+                    <h2 id="currentSubject">Subject</h2>
+                </div>
+                
+                <div class="toolbar">
+                    <button class="tool-btn home-btn" onclick="goHome()" title="Home">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9,22 9,12 15,12 15,22"/>
+                        </svg>
+                    </button>
+                    <button class="tool-btn" onclick="createNewNote()" title="New Note">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                            <polyline points="14,2 14,8 20,8"/>
+                            <line x1="12" y1="18" x2="12" y2="12"/>
+                            <line x1="9" y1="15" x2="15" y2="15"/>
+                        </svg>
+                    </button>
+                    <button class="tool-btn" onclick="searchNotes()" title="Search">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="M21 21l-4.35-4.35"/>
+                        </svg>
+                    </button>
+                    <button class="tool-btn delete-btn" onclick="deleteCurrentNote()" title="Delete">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3,6 5,6 21,6"/>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                            <line x1="10" y1="11" x2="10" y2="17"/>
+                            <line x1="14" y1="11" x2="14" y2="17"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="search-container" id="searchContainer" style="display: none;">
+                    <input type="text" class="search-input" placeholder="Search notes..." onkeyup="filterNotes(this.value)">
+                </div>
+                
+                <div class="notes-list" id="notesList"></div>
+            </div>
+
+            <!-- Main Editor -->
+            <div class="main-content">
+                <div class="editor-toolbar">
+                    <div class="format-group">
+                        <button class="format-btn" onclick="formatText('bold')" title="Bold">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/>
+                                <path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/>
+                            </svg>
+                        </button>
+                        <button class="format-btn" onclick="formatText('italic')" title="Italic">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="19" y1="4" x2="10" y2="4"/>
+                                <line x1="14" y1="20" x2="5" y2="20"/>
+                                <line x1="15" y1="4" x2="9" y2="20"/>
+                            </svg>
+                        </button>
+                        <button class="format-btn" onclick="formatText('underline')" title="Underline">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"/>
+                                <line x1="4" y1="21" x2="20" y2="21"/>
+                            </svg>
+                        </button>
+                        <button class="format-btn highlight-btn" onclick="highlightText()" title="Highlight">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 11H1v6h8v-6zM3 17l4-4v8l-4-4z"/>
+                                <path d="M14 3L9 8l4 4 5-5-4-4z"/>
+                                <path d="M15 18h6v2h-6z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="format-group">
+                        <button class="format-btn" onclick="addBulletList()" title="Bullet List">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="8" y1="6" x2="21" y2="6"/>
+                                <line x1="8" y1="12" x2="21" y2="12"/>
+                                <line x1="8" y1="18" x2="21" y2="18"/>
+                                <line x1="3" y1="6" x2="3.01" y2="6"/>
+                                <line x1="3" y1="12" x2="3.01" y2="12"/>
+                                <line x1="3" y1="18" x2="3.01" y2="18"/>
+                            </svg>
+                        </button>
+                        <button class="format-btn" onclick="addNumberList()" title="Number List">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="10" y1="6" x2="21" y2="6"/>
+                                <line x1="10" y1="12" x2="21" y2="12"/>
+                                <line x1="10" y1="18" x2="21" y2="18"/>
+                                <path d="M4 6h1v4"/>
+                                <path d="M4 10h2"/>
+                                <path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="note-editor" id="noteEditor">
+                    <div class="welcome-screen">
+                        <div class="welcome-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14,2 14,8 20,8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <polyline points="10,9 9,9 8,9"/>
+                            </svg>
+                        </div>
+                        <h3>Select or create a note</h3>
+                        <p>Choose an existing note or create a new one to start writing</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Color Picker Modal -->
+    <div class="color-picker-modal" id="colorPicker" style="display: none;">
+        <div class="color-options">
+            <div class="color-option" style="background: #ffeb3b;" onclick="applyHighlight('#ffeb3b')"></div>
+            <div class="color-option" style="background: #4caf50;" onclick="applyHighlight('#4caf50')"></div>
+            <div class="color-option" style="background: #2196f3;" onclick="applyHighlight('#2196f3')"></div>
+            <div class="color-option" style="background: #ff9800;" onclick="applyHighlight('#ff9800')"></div>
+            <div class="color-option" style="background: #e91e63;" onclick="applyHighlight('#e91e63')"></div>
+            <div class="color-option" style="background: #9c27b0;" onclick="applyHighlight('#9c27b0')"></div>
+        </div>
+    </div>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .app-container {
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Subject Selection Screen */
+        .subject-selection {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: white;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            width: 100%;
+            padding: 0 2rem;
+        }
+
+        .subject-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .subject-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+        }
+
+        .subject-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1.5rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .subject-icon svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .subject-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .note-count {
+            font-size: 0.875rem;
+            color: #666;
+            opacity: 0.8;
+        }
+
+        /* Main App Interface */
+        .main-app {
+            display: flex;
+            height: 100vh;
+            background: #f8f9fa;
+        }
+
+        .sidebar {
+            width: 320px;
+            background: white;
+            border-right: 1px solid #e9ecef;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: #f8f9fa;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #e9ecef;
+        }
+
+        .back-btn svg {
+            width: 20px;
+            height: 20px;
+            color: #6c757d;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .toolbar {
+            display: flex;
+            padding: 1rem;
+            gap: 0.5rem;
+            border-bottom: 1px solid #e9ecef;
+            background: #f8f9fa;
+        }
+
+        .tool-btn {
+            background: none;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .tool-btn:hover {
+            background: #f3f4f6;
+            border-color: #9ca3af;
+            transform: translateY(-1px);
+        }
+
+        .tool-btn svg {
+            width: 18px;
+            height: 18px;
+            color: #6b7280;
+        }
+
+        .home-btn:hover {
+            background: #dbeafe;
+            border-color: #3b82f6;
+        }
+
+        .home-btn:hover svg {
+            color: #3b82f6;
+        }
+
+        .delete-btn:hover {
+            background: #fee2e2;
+            border-color: #ef4444;
+        }
+
+        .delete-btn:hover svg {
+            color: #ef4444;
+        }
+
+        .search-container {
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            font-size: 0.875rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #0969da;
+            box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.12);
+        }
+
+        .notes-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.5rem 0;
+        }
+
+        .note-item {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #f6f8fa;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .note-item:hover {
+            background: #f6f8fa;
+        }
+
+        .note-item.active {
+            background: #dbeafe;
+            border-right: 3px solid #2563eb;
+        }
+
+        .note-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #24292f;
+            margin-bottom: 0.25rem;
+        }
+
+        .note-preview {
+            font-size: 0.75rem;
+            color: #656d76;
+            line-height: 1.4;
+        }
+
+        .note-date {
+            font-size: 0.75rem;
+            color: #8b949e;
+            margin-top: 0.25rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+
+        .editor-toolbar {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            gap: 1rem;
+            background: #f8f9fa;
+        }
+
+        .format-group {
+            display: flex;
+            gap: 0.25rem;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            padding: 0.25rem;
+        }
+
+        .format-btn {
+            background: none;
+            border: none;
+            border-radius: 4px;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .format-btn:hover {
+            background: #f3f4f6;
+        }
+
+        .format-btn.active {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .format-btn svg {
+            width: 16px;
+            height: 16px;
+            color: #6b7280;
+        }
+
+        .format-btn.active svg {
+            color: #2563eb;
+        }
+
+        .highlight-btn.active {
+            background: #fef3c7;
+        }
+
+        .note-editor {
+            flex: 1;
+            position: relative;
+        }
+
+        .welcome-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #6b7280;
+        }
+
+        .welcome-icon svg {
+            width: 64px;
+            height: 64px;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+
+        .welcome-screen h3 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+
+        .welcome-screen p {
+            font-size: 0.875rem;
+        }
+
+        .editor-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+        }
+
+        .editor-title {
+            font-size: 2rem;
+            font-weight: 300;
+            border: none;
+            outline: none;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+            background: transparent;
+            resize: none;
+            min-height: 60px;
+        }
+
+        .editor-title::placeholder {
+            color: #9ca3af;
+        }
+
+        .editor-date {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+
+        .editor-content {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #374151;
+            background: transparent;
+            resize: none;
+            font-family: inherit;
+        }
+
+        .editor-content::placeholder {
+            color: #9ca3af;
+        }
+
+        /* Color Picker */
+        .color-picker-modal {
+            position: fixed;
+            background: white;
+            border: 1px solid #d0d7de;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            z-index: 1000;
+            padding: 0.75rem;
+            display: none;
+        }
+
+        .color-options {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .color-option {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 0 0 1px #d0d7de;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 0 2px #0969da;
+        }
+
+        .color-option:active {
+            transform: scale(0.95);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .subjects-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .subject-card {
+                padding: 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .sidebar {
+                width: 280px;
+            }
+
+            .editor-container {
+                padding: 1rem;
+            }
+        }
+
+        /* Scrollbar */
+        .notes-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .notes-list::-webkit-scrollbar-track {
+            background: #f1f3f4;
+        }
+
+        .notes-list::-webkit-scrollbar-thumb {
+            background: #dadce0;
+            border-radius: 3px;
+        }
+
+        .notes-list::-webkit-scrollbar-thumb:hover {
+            background: #bdc1c6;
+        }
+
+        /* Rich Text Styling */
+        .editor-content b, .editor-content strong {
+            font-weight: 700;
+        }
+
+        .editor-content i, .editor-content em {
+            font-style: italic;
+        }
+
+        .editor-content u {
+            text-decoration: underline;
+        }
+
+        .highlight {
+            padding: 0.125rem 0.25rem;
+            border-radius: 3px;
+            background-color: #fef08a;
+        }
+    </style>
+
+    <script>
+        let subjects = {
+            'Geodesy': [],
+            'Mathematics': [],
+            'Theory & Practice of Surveying': [],
+            'Laws, Rules, and Regulations': [],
+            'Cartography': []
+        };
+        
+        let currentSubject = null;
+        let currentNoteId = null;
+        let searchVisible = false;
+
+        // Load data from localStorage
+        function loadData() {
+            const savedData = localStorage.getItem('subject_notebook');
+            if (savedData) {
+                subjects = JSON.parse(savedData);
+            }
+            updateNoteCounts();
+        }
+
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('subject_notebook', JSON.stringify(subjects));
+            updateNoteCounts();
+        }
+
+        // Update note counts on subject cards
+        function updateNoteCounts() {
+            Object.keys(subjects).forEach(subject => {
+                const countElement = document.getElementById(`count-${subject}`);
+                if (countElement) {
+                    const count = subjects[subject].length;
+                    countElement.textContent = count === 1 ? '1 note' : `${count} notes`;
+                }
+            });
+        }
+
+        // Generate unique ID
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        // Open subject
+        function openSubject(subjectName) {
+            currentSubject = subjectName;
+            document.getElementById('subjectSelection').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'flex';
+            document.getElementById('currentSubject').textContent = subjectName;
+            
+            // Set subject color theme
+            const subjectCard = document.querySelector(`[onclick="openSubject('${subjectName}')"]`);
+            const color = subjectCard.getAttribute('data-color');
+            setSubjectTheme(color);
+            
+            renderNotesList();
+        }
+
+        // Go to home page
+        function goHome() {
+            window.location.href = 'index.html';
+        }
+        function goBackToSubjects() {
+            document.getElementById('subjectSelection').style.display = 'flex';
+            document.getElementById('mainApp').style.display = 'none';
+            currentSubject = null;
+            currentNoteId = null;
+        }
+
+        // Set subject theme color
+        function setSubjectTheme(color) {
+            const root = document.documentElement;
+            root.style.setProperty('--subject-color', color);
+            
+            // Update active states with subject color
+            const style = document.createElement('style');
+            style.textContent = `
+                .note-item.active { background: ${color}20; border-right-color: ${color}; }
+                .format-btn.active { background: ${color}20; color: ${color}; }
+                .format-btn.active svg { color: ${color}; }
+                .search-input:focus { border-color: ${color}; box-shadow: 0 0 0 3px ${color}20; }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Create new note
+        function createNewNote() {
+            if (!currentSubject) return;
+            
+            const newNote = {
+                id: generateId(),
+                title: '',
+                content: '',
+                createdAt: new Date(),
+                updatedAt: new Date()
+            };
+            
+            subjects[currentSubject].unshift(newNote);
+            saveData();
+            renderNotesList();
+            selectNote(newNote.id);
+        }
+
+        // Render notes list
+        function renderNotesList() {
+            const notesList = document.getElementById('notesList');
+            const notes = subjects[currentSubject] || [];
+            
+            if (notes.length === 0) {
+                notesList.innerHTML = `
+                    <div class="empty-notes" style="padding: 2rem; text-align: center; color: #6b7280;">
+                        <p>No notes yet</p>
+                        <p style="font-size: 0.75rem; margin-top: 0.5rem;">Create your first note</p>
+                    </div>
+                `;
+                return;
+            }
+
+            notesList.innerHTML = notes.map(note => {
+                const title = note.title || 'Untitled Note';
+                const preview = note.content.replace(/<[^>]*>/g, '').slice(0, 80) + (note.content.length > 80 ? '...' : '');
+                const date = formatDate(new Date(note.updatedAt));
+                
+                return `
+                    <div class="note-item ${note.id === currentNoteId ? 'active' : ''}" 
+                         onclick="selectNote('${note.id}')">
+                        <div class="note-title">${title}</div>
+                        <div class="note-preview">${preview}</div>
+                        <div class="note-date">${date}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Select note
+        function selectNote(noteId) {
+            currentNoteId = noteId;
+            const note = subjects[currentSubject].find(n => n.id === noteId);
+            if (!note) return;
+
+            renderNotesList();
+            renderNoteEditor(note);
+        }
+
+        // Render note editor
+        function renderNoteEditor(note) {
+            const noteEditor = document.getElementById('noteEditor');
+            const formattedDate = formatDate(new Date(note.updatedAt));
+            
+            noteEditor.innerHTML = `
+                <div class="editor-container">
+                    <textarea class="editor-title" 
+                              placeholder="Note title" 
+                              oninput="updateNoteTitle(this.value)">${note.title}</textarea>
+                    <div class="editor-date">${formattedDate}</div>
+                    <div class="editor-content" 
+                         contenteditable="true"
+                         placeholder="Start writing..."
+                         oninput="updateNoteContent(this.innerHTML)"
+                         onkeydown="handleEditorKeydown(event)">${note.content}</div>
+                </div>
+            `;
+            
+            // Focus on title if empty, otherwise content
+            setTimeout(() => {
+                if (!note.title) {
+                    document.querySelector('.editor-title').focus();
+                } else {
+                    document.querySelector('.editor-content').focus();
+                }
+            }, 100);
+        }
+
+        // Update note title
+        function updateNoteTitle(title) {
+            if (!currentNoteId) return;
+            
+            const note = subjects[currentSubject].find(n => n.id === currentNoteId);
+            if (note) {
+                note.title = title;
+                note.updatedAt = new Date();
+                saveData();
+                renderNotesList();
+            }
+        }
+
+        // Update note content
+        function updateNoteContent(content) {
+            if (!currentNoteId) return;
+            
+            const note = subjects[currentSubject].find(n => n.id === currentNoteId);
+            if (note) {
+                note.content = content;
+                note.updatedAt = new Date();
+                saveData();
+                renderNotesList();
+            }
+        }
+
+        // Delete current note
+        function deleteCurrentNote() {
+            if (!currentNoteId) return;
+            
+            if (confirm('Delete this note?')) {
+                subjects[currentSubject] = subjects[currentSubject].filter(n => n.id !== currentNoteId);
+                saveData();
+                currentNoteId = null;
+                
+                document.getElementById('noteEditor').innerHTML = `
+                    <div class="welcome-screen">
+                        <div class="welcome-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14,2 14,8 20,8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <polyline points="10,9 9,9 8,9"/>
+                            </svg>
+                        </div>
+                        <h3>Note deleted</h3>
+                        <p>Select another note or create a new one</p>
+                    </div>
+                `;
+                
+                renderNotesList();
+            }
+        }
+
+        // Toggle search
+        function searchNotes() {
+            searchVisible = !searchVisible;
+            const searchContainer = document.getElementById('searchContainer');
+            searchContainer.style.display = searchVisible ? 'block' : 'none';
+            
+            if (searchVisible) {
+                document.querySelector('.search-input').focus();
+            } else {
+                document.querySelector('.search-input').value = '';
+                renderNotesList();
+            }
+        }
+
+        // Filter notes
+        function filterNotes(query) {
+            const notes = subjects[currentSubject] || [];
+            const filteredNotes = notes.filter(note => 
+                note.title.toLowerCase().includes(query.toLowerCase()) ||
+                note.content.toLowerCase().includes(query.toLowerCase())
+            );
+            
+            const notesList = document.getElementById('notesList');
+            if (filteredNotes.length === 0 && query) {
+                notesList.innerHTML = '<div class="empty-notes" style="padding: 2rem; text-align: center; color: #6b7280;"><p>No notes found</p></div>';
+                return;
+            }
+            
+            if (!query) {
+                renderNotesList();
+                return;
+            }
+            
+            notesList.innerHTML = filteredNotes.map(note => {
+                const title = note.title || 'Untitled Note';
+                const preview = note.content.replace(/<[^>]*>/g, '').slice(0, 80) + (note.content.length > 80 ? '...' : '');
+                const date = formatDate(new Date(note.updatedAt));
+                
+                return `
+                    <div class="note-item ${note.id === currentNoteId ? 'active' : ''}" 
+                         onclick="selectNote('${note.id}')">
+                        <div class="note-title">${title}</div>
+                        <div class="note-preview">${preview}</div>
+                        <div class="note-date">${date}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Format text functions
+        function formatText(command) {
+            document.execCommand(command, false, null);
+            updateActiveStates();
+        }
+
+        function highlightText() {
+            const selection = window.getSelection();
+            if (selection.rangeCount > 0 && !selection.isCollapsed) {
+                const colorPicker = document.getElementById('colorPicker');
+                const rect = selection.getRangeAt(0).getBoundingClientRect();
+                
+                colorPicker.style.display = 'block';
+                colorPicker.style.left = rect.left + window.scrollX + 'px';
+                colorPicker.style.top = (rect.bottom + window.scrollY + 10) + 'px';
+            } else {
+                // If no text is selected, show message
+                alert('Please select text first to highlight');
+            }
+        }
+
+        function applyHighlight(color) {
+            const selection = window.getSelection();
+            if (selection.rangeCount > 0 && !selection.isCollapsed) {
+                const range = selection.getRangeAt(0);
+                
+                // Check if we're in the editor
+                const editor = document.querySelector('.editor-content');
+                if (!editor || !editor.contains(range.commonAncestorContainer)) {
+                    document.getElementById('colorPicker').style.display = 'none';
+                    return;
+                }
+                
+                // Create highlight span
+                const span = document.createElement('span');
+                span.className = 'highlight';
+                span.style.backgroundColor = color;
+                span.style.padding = '2px 4px';
+                span.style.borderRadius = '3px';
+                
+                try {
+                    // Extract the selected content
+                    const contents = range.extractContents();
+                    span.appendChild(contents);
+                    range.insertNode(span);
+                    
+                    // Clear selection
+                    selection.removeAllRanges();
+                    
+                    // Update note content
+                    updateNoteContent(editor.innerHTML);
+                    
+                } catch (e) {
+                    console.error('Highlight error:', e);
+                    // Fallback method
+                    const selectedText = selection.toString();
+                    if (selectedText) {
+                        const highlightedText = `<span class="highlight" style="background-color: ${color}; padding: 2px 4px; border-radius: 3px;">${selectedText}</span>`;
+                        document.execCommand('insertHTML', false, highlightedText);
+                        updateNoteContent(editor.innerHTML);
+                    }
+                }
+            }
+            
+            document.getElementById('colorPicker').style.display = 'none';
+        }
+
+        function addBulletList() {
+            document.execCommand('insertUnorderedList', false, null);
+        }
+
+        function addNumberList() {
+            document.execCommand('insertOrderedList', false, null);
+        }
+
+        // Update active formatting states
+        function updateActiveStates() {
+            const formatButtons = document.querySelectorAll('.format-btn');
+            formatButtons.forEach(btn => btn.classList.remove('active'));
+            
+            if (document.queryCommandState('bold')) {
+                document.querySelector('[onclick="formatText(\'bold\')"]').classList.add('active');
+            }
+            if (document.queryCommandState('italic')) {
+                document.querySelector('[onclick="formatText(\'italic\')"]').classList.add('active');
+            }
+            if (document.queryCommandState('underline')) {
+                document.querySelector('[onclick="formatText(\'underline\')"]').classList.add('active');
+            }
+        }
+
+        // Handle editor keydown for formatting shortcuts
+        function handleEditorKeydown(event) {
+            if (event.ctrlKey || event.metaKey) {
+                switch (event.key) {
+                    case 'b':
+                        event.preventDefault();
+                        formatText('bold');
+                        break;
+                    case 'i':
+                        event.preventDefault();
+                        formatText('italic');
+                        break;
+                    case 'u':
+                        event.preventDefault();
+                        formatText('underline');
+                        break;
+                }
+            }
+            
+            // Auto-save after typing
+            setTimeout(() => {
+                updateNoteContent(event.target.innerHTML);
+                updateActiveStates();
+            }, 100);
+        }
+
+        // Format date
+        function formatDate(date) {
+            const now = new Date();
+            const diff = now - date;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            if (days === 0) {
+                return date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            } else if (days === 1) {
+                return 'Yesterday';
+            } else if (days < 7) {
+                return date.toLocaleDateString([], {weekday: 'short'});
+            } else {
+                return date.toLocaleDateString([], {month: 'short', day: 'numeric'});
+            }
+        }
+
+        // Hide color picker when clicking outside
+        document.addEventListener('click', function(event) {
+            const colorPicker = document.getElementById('colorPicker');
+            if (!colorPicker.contains(event.target) && !event.target.closest('.highlight-btn')) {
+                colorPicker.style.display = 'none';
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            if (event.ctrlKey || event.metaKey) {
+                switch (event.key) {
+                    case 'n':
+                        event.preventDefault();
+                        if (currentSubject) createNewNote();
+                        break;
+                    case 'f':
+                        event.preventDefault();
+                        if (currentSubject) searchNotes();
+                        break;
+                    case 'Backspace':
+                        if (event.target.tagName !== 'INPUT' && event.target.contentEditable !== 'true') {
+                            event.preventDefault();
+                            deleteCurrentNote();
+                        }
+                        break;
+                }
+            }
+            
+            if (event.key === 'Escape') {
+                if (searchVisible) {
+                    searchNotes();
+                }
+                document.getElementById('colorPicker').style.display = 'none';
+            }
+        });
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            
+            // Add subject color themes
+            const subjectCards = document.querySelectorAll('.subject-card');
+            subjectCards.forEach(card => {
+                const color = card.getAttribute('data-color');
+                const icon = card.querySelector('.subject-icon');
+                icon.style.backgroundColor = color;
+                icon.style.color = 'white';
+            });
+        });
+    </script>
+</body>
+</html>

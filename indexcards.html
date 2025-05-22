@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geodetic Engineering Reviewer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="indexcards.css">
+    <style>
+        body {
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .home-icon {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .home-icon:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .home-icon a {
+            color: #2196f3;
+            font-size: 20px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .index-page-hero {
+            padding: 60px 0 30px;
+        }
+        
+        /* Adjust spacing since header is gone */
+        .card-viewer-hero {
+            padding: 60px 0 30px;
+        }
+        
+        /* Hide the footer */
+        footer {
+            display: none;
+        }
+        
+        /* Make the page cleaner by removing unnecessary borders */
+        .folder-item, .index-card {
+            border: 1px solid #f0f0f0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        /* Clean white styling */
+        .container {
+            padding: 0 20px;
+        }
+        
+        section {
+            margin-bottom: 40px;
+        }
+    </style>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+</head>
+<body>
+    <!-- Home Icon -->
+    <div class="home-icon">
+        <a href="index.html" title="Go to Home Page">
+            <i class="fas fa-home"></i>
+        </a>
+    </div>
+    
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="login-submit">Login</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Edit Password Modal -->
+    <div id="editPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="editPasswordClose">&times;</span>
+            <h2>Unlock Edit Features</h2>
+            <p>Please enter the password to access card editing features:</p>
+            <form id="editPasswordForm">
+                <div class="form-group">
+                    <label for="editPassword">Password</label>
+                    <input type="password" id="editPassword" placeholder="Enter the edit password" required>
+                </div>
+                <button type="submit" class="login-submit">Unlock</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Hero Section for Index Cards Page -->
+    <section class="index-page-hero">
+        <div class="container">
+            <h1>Index Cards</h1>
+            <p>Enhance your learning with our digital index cards. Create and review flashcards organized by subject to help with your Geodetic Engineering exam preparation.</p>
+            <div class="index-page-actions">
+                <div id="editStatusIndicator" class="edit-status edit-locked">Edit Mode: Locked</div>
+                <button onclick="showEditPasswordModal()" class="unlock-edit-btn">Unlock Edit Features</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Index Cards Folders Section -->
+    <section class="index-cards-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Select a Subject Folder</h2>
+                <p>Choose a subject folder to view or study index cards</p>
+            </div>
+            <div class="folders-container">
+                <!-- Geodesy Index Cards -->
+                <div class="folder-item" onclick="openIndexCardFolder('Geodesy')">
+                    <div class="folder-icon">
+                        <i class="fas fa-folder"></i>
+                    </div>
+                    <div class="folder-content">
+                        <h3>Geodesy</h3>
+                        <p>Flashcards on Geodetic Surveying, Geodetic Astronomy, Triangulation, Leveling, Gravity Measurement, and more.</p>
+                        <a href="#" class="folder-link">Open Folder</a>
+                    </div>
+                </div>
+                
+                <!-- Mathematics Index Cards -->
+                <div class="folder-item" onclick="openIndexCardFolder('Mathematics')">
+                    <div class="folder-icon">
+                        <i class="fas fa-folder"></i>
+                    </div>
+                    <div class="folder-content">
+                        <h3>Mathematics</h3>
+                        <p>Flashcards on Algebra, Geometry, Trigonometry, Calculus, Engineering Economics, Mechanics, and more.</p>
+                        <a href="#" class="folder-link">Open Folder</a>
+                    </div>
+                </div>
+                
+                <!-- Theory & Practice Index Cards -->
+                <div class="folder-item" onclick="openIndexCardFolder('Theory')">
+                    <div class="folder-icon">
+                        <i class="fas fa-folder"></i>
+                    </div>
+                    <div class="folder-content">
+                        <h3>Theory & Practice</h3>
+                        <p>Flashcards on Property Surveying, Land Surveying, Astronomy, Engineering Surveys, and more.</p>
+                        <a href="#" class="folder-link">Open Folder</a>
+                    </div>
+                </div>
+                
+                <!-- Laws Index Cards -->
+                <div class="folder-item" onclick="openIndexCardFolder('Laws')">
+                    <div class="folder-icon">
+                        <i class="fas fa-folder"></i>
+                    </div>
+                    <div class="folder-content">
+                        <h3>Laws & Regulations</h3>
+                        <p>Flashcards on Public Land Laws, Property Laws, Land Reform, Professional Ethics, and more.</p>
+                        <a href="#" class="folder-link">Open Folder</a>
+                    </div>
+                </div>
+                
+                <!-- Cartography Index Cards -->
+                <div class="folder-item" onclick="openIndexCardFolder('Cartography')">
+                    <div class="folder-icon">
+                        <i class="fas fa-folder"></i>
+                    </div>
+                    <div class="folder-content">
+                        <h3>Cartography</h3>
+                        <p>Flashcards on Plotting, Mapping, Surveys, Map Projections, and more.</p>
+                        <a href="#" class="folder-link">Open Folder</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script src="indexcards.js"></script>
+</body>
+</html>

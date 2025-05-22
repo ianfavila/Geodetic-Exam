@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meditation Candle Flame</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif; /* Added Inter font */
+        }
+        
+        .candle {
+            position: relative;
+            width: 60px;
+            height: 150px;
+        }
+        
+        .candle-body {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 100px;
+            background: linear-gradient(to right, #e0c9a6, #f5e7d0, #e0c9a6);
+            border-radius: 3px; /* Consistent rounded corners */
+            box-shadow: 0 0 20px rgba(255, 200, 150, 0.2);
+        }
+        
+        .candle-wick {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 15px;
+            background: #333;
+        }
+        
+        .flame {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 60px;
+            background: #ff7800;
+            border-radius: 50% 50% 20% 20%; /* Consistent rounded corners */
+            box-shadow: 
+                0 0 20px #ff7800,
+                0 0 40px #ff7800,
+                0 0 60px #ff5e00,
+                0 0 80px #ff5e00;
+            animation: flicker 2s ease-in-out infinite alternate;
+            transform-origin: center bottom;
+        }
+        
+        .flame:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 40px;
+            background: #ffec00;
+            border-radius: 50% 50% 20% 20%; /* Consistent rounded corners */
+            mix-blend-mode: screen;
+        }
+        
+        .glow {
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255,120,0,0.3) 0%, rgba(255,120,0,0) 70%);
+            border-radius: 50%; /* Consistent rounded corners */
+            animation: pulse 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes flicker {
+            0%, 100% {
+                transform: translateX(-50%) scale(1, 1);
+                border-radius: 50% 50% 20% 20%;
+            }
+            25% {
+                transform: translateX(-50%) scale(1.1, 0.9) rotate(-2deg);
+                border-radius: 60% 40% 30% 20%;
+            }
+            50% {
+                transform: translateX(-50%) scale(0.9, 1.1) rotate(2deg);
+                border-radius: 40% 60% 20% 30%;
+            }
+            75% {
+                transform: translateX(-50%) scale(1.05, 0.95) rotate(1deg);
+                border-radius: 55% 45% 25% 25%;
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                opacity: 0.5;
+                transform: translateX(-50%) scale(0.8);
+            }
+            100% {
+                opacity: 0.8;
+                transform: translateX(-50%) scale(1.2);
+            }
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .control-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%; /* Consistent rounded corners */
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.1);
+        }
+
+        .control-btn i {
+            font-size: 16px;
+        }
+
+        /* Audio player styling */
+        .audio-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px 15px;
+            border-radius: 30px; /* Consistent rounded corners */
+            z-index: 100;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+
+        .audio-controls:hover {
+            opacity: 1;
+        }
+
+        .play-pause {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%; /* Consistent rounded corners */
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .play-pause:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .volume-icon {
+            color: white;
+            width: 20px;
+        }
+
+        .volume-slider {
+            -webkit-appearance: none;
+            width: 80px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px; /* Consistent rounded corners */
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%; /* Consistent rounded corners */
+            background: white;
+            cursor: pointer;
+        }
+
+        .track-title {
+            color: white;
+            font-size: 12px;
+            font-family: 'Inter', Arial, sans-serif; /* Added Inter font with fallback */
+            margin-left: 10px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="candle">
+        <div class="glow"></div>
+        <div class="flame"></div>
+        <div class="candle-wick"></div>
+        <div class="candle-body"></div>
+    </div>
+
+    <div class="controls">
+        <div class="control-btn" id="back-btn">
+            <a href="index.html" style="color: white; text-decoration: none;">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+        </div>
+        <div class="control-btn" id="fullscreen-btn">
+            <i class="fas fa-expand"></i>
+        </div>
+    </div>
+
+    <div class="audio-controls">
+        <button class="play-pause" id="play-pause-btn">
+            <i class="fas fa-play" id="play-icon"></i>
+        </button>
+        <div class="volume-control">
+            <i class="fas fa-volume-up volume-icon"></i>
+            <input type="range" class="volume-slider" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
+        </div>
+        <div class="track-title" id="track-title">Piano Music</div>
+    </div>
+
+    <audio id="meditation-audio" loop autoplay>
+        <source src="piano.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // Full screen functionality
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
+        
+        if (fullscreenBtn) { // Check if fullscreen button exists
+            fullscreenBtn.addEventListener('click', () => {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(err => {
+                        console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                    });
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            });
+        }
+
+        // Handle fullscreen change to update icon
+        document.addEventListener('fullscreenchange', () => {
+            if (fullscreenBtn) { // Check if fullscreen button exists
+                if (!document.fullscreenElement) {
+                    fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+                } else {
+                    fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
+                }
+            }
+        });
+
+        // Audio functionality
+        const audio = document.getElementById('meditation-audio');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const playIcon = document.getElementById('play-icon');
+        const volumeSlider = document.getElementById('volume-slider'); 
+        const trackTitleElement = document.getElementById('track-title'); 
+
+        // Function to update play/pause button icon
+        function updatePlayPauseIcon() {
+            if (audio && playIcon) { // Check if elements exist
+                if (audio.paused) {
+                    playIcon.classList.remove('fa-pause');
+                    playIcon.classList.add('fa-play');
+                } else {
+                    playIcon.classList.remove('fa-play');
+                    playIcon.classList.add('fa-pause');
+                }
+            }
+        }
+        
+        // Set initial volume and attempt to play if autoplay is set
+        if (audio) { // Check if audio element exists
+            if (volumeSlider) { // Check if volume slider exists
+                 audio.volume = volumeSlider.value;
+            }
+
+            // Attempt to play audio. Modern browsers might block autoplay if user hasn't interacted.
+            // The 'autoplay' attribute handles the initial attempt.
+            // We listen for the 'play' and 'pause' events to keep the icon in sync.
+            audio.addEventListener('play', updatePlayPauseIcon);
+            audio.addEventListener('pause', updatePlayPauseIcon);
+            
+            // Call initially to set the icon based on autoplay status
+            // Using a small timeout to allow the browser to process autoplay
+            setTimeout(updatePlayPauseIcon, 100);
+
+
+            // Play/Pause functionality for the button
+            if (playPauseBtn && playIcon) { // Check if elements exist
+                playPauseBtn.addEventListener('click', () => {
+                    if (audio.paused) {
+                        audio.play().catch(error => console.error("Error playing audio:", error));
+                    } else {
+                        audio.pause();
+                    }
+                    // Icon update will be handled by the 'play'/'pause' event listeners
+                });
+            }
+
+            // Volume control
+            if (volumeSlider) { // Check if volume slider exists
+                volumeSlider.addEventListener('input', () => {
+                    audio.volume = volumeSlider.value;
+                    
+                    const volumeIcon = document.querySelector('.volume-icon'); 
+                    if (volumeIcon) { 
+                        if (audio.volume === 0) {
+                            volumeIcon.className = 'fas fa-volume-mute volume-icon';
+                        } else if (audio.volume < 0.5) {
+                            volumeIcon.className = 'fas fa-volume-down volume-icon';
+                        } else {
+                            volumeIcon.className = 'fas fa-volume-up volume-icon';
+                        }
+                    }
+                });
+            }
+
+            // Update track title (already in place, kept for completeness)
+            audio.addEventListener('loadedmetadata', () => {
+                // For now, we've hardcoded it to "Piano Music"
+            });
+
+            // Handle potential errors with audio loading
+            audio.addEventListener('error', (e) => {
+                console.error("Error with audio element:", e);
+                if (trackTitleElement) { 
+                    trackTitleElement.textContent = "Error loading audio";
+                }
+                if(playPauseBtn) playPauseBtn.disabled = true;
+                if(volumeSlider) volumeSlider.disabled = true;
+            });
+        }
+
+    </script>
+</body>
+</html>
+```

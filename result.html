@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Results - Geodetic Engineering Reviewer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="result.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-globe-americas logo-icon"></i>
+                <span>Geodetic Engineering Reviewer</span>
+            </div>
+            <a href="index.html" class="home-link">
+                <i class="fas fa-home"></i> Back to Home
+            </a>
+        </div>
+    </header>
+    
+    <!-- Results Container -->
+    <div class="container">
+        <div class="results-container" id="results-section">
+            <div class="results-header">
+                <h1>Exam Results</h1>
+                <p>Congratulations on completing your exam!</p>
+            </div>
+            
+            <!-- Score Card -->
+            <div class="score-card">
+                <div class="score-title">Your Score</div>
+                <div class="score-value" id="score-value">0%</div>
+                <div class="score-label" id="score-label">Loading...</div>
+                <i class="fas fa-award score-background"></i>
+            </div>
+            
+            <!-- Exam Details -->
+            <div class="exam-details">
+                <div class="detail-card">
+                    <div class="detail-title">Subject</div>
+                    <div class="detail-value" id="exam-subject">Loading...</div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-title">Time Spent</div>
+                    <div class="detail-value" id="time-spent">00:00:00</div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-title">Questions</div>
+                    <div class="detail-value" id="correct-answers">0/0</div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-title">Date Taken</div>
+                    <div class="detail-value" id="exam-date">Loading...</div>
+                </div>
+            </div>
+            
+            <!-- Topic Performance -->
+            <div class="topic-performance">
+                <h2 class="section-title">Performance by Topic</h2>
+                <div class="topic-list" id="topic-list">
+                    <!-- Topics will be generated here -->
+                    <div class="topic-item">
+                        <div class="topic-name">
+                            Loading topics...
+                            <span class="topic-score">0%</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="index.html" class="action-button secondary">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="exam.html" class="action-button primary">
+                    <i class="fas fa-redo"></i> Take Another Exam
+                </a>
+                <button id="review-answers-btn" class="action-button secondary">
+                    <i class="fas fa-search"></i> Review Answers
+                </button>
+            </div>
+            
+            <!-- Improvement Tips -->
+            <div class="improvement-tips">
+                <h2 class="section-title">Tips for Improvement</h2>
+                <ul class="tips-list" id="tips-list">
+                    <!-- Tips will be generated here -->
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Review Container - Hidden by default -->
+        <div class="review-container" id="review-section" style="display: none;">
+            <div class="review-header">
+                <h1>Review Your Answers</h1>
+                <p id="review-exam-subject">Loading subject...</p>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="review-nav">
+                <div class="nav-buttons">
+                    <button id="prev-btn" class="nav-button secondary">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <button id="next-btn" class="nav-button primary">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="question-nav">
+                    <span class="question-counter">Question <span id="current-question">1</span> of <span id="total-questions">0</span></span>
+                </div>
+            </div>
+            
+            <!-- Question Card -->
+            <div class="question-card" id="question-container">
+                <div class="question-header">
+                    <div class="question-number">Question 1</div>
+                    <div class="question-topic" id="question-topic">Professional & Ethical Practice</div>
+                </div>
+                <div class="question-text" id="question-text">
+                    Loading question...
+                </div>
+                
+                <!-- Answer Options -->
+                <div class="answer-options" id="answer-options">
+                    <!-- Options will be generated here -->
+                </div>
+                
+                <!-- Explanation -->
+                <div class="explanation" id="explanation">
+                    <div class="explanation-title">Explanation</div>
+                    <div id="explanation-text">
+                        Explanations will be shown here after you've completed the exam.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Summary Section -->
+            <div class="summary-section">
+                <h2 class="section-title">Questions Summary</h2>
+                <div class="summary-list" id="questions-summary">
+                    <!-- Summary items will be generated here -->
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button id="back-to-results-btn" class="action-button secondary">
+                    <i class="fas fa-chart-bar"></i> Back to Results
+                </button>
+                <a href="exam.html" class="action-button primary">
+                    <i class="fas fa-redo"></i> Take Another Exam
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="result.js"></script>
+</body>
+</html>

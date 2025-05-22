@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Cards - Geodetic Engineering Reviewer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="indexcards.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-globe-americas logo-icon"></i>
+                <span>Geodetic Engineering Reviewer</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="indexcards.html">Index Cards</a></li>
+                    <li><a href="news.html">News</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                    <li><a href="protest.html">Protest</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="aboutus.html">About Us</a></li>
+                    <li><button id="loginBtn" class="login-button">Login</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="login-submit">Login</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Edit Password Modal -->
+    <div id="editPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="editPasswordClose">&times;</span>
+            <h2>Unlock Edit Features</h2>
+            <p>Please enter the password to access card editing features:</p>
+            <form id="editPasswordForm">
+                <div class="form-group">
+                    <label for="editPassword">Password</label>
+                    <input type="password" id="editPassword" placeholder="Enter the edit password" required>
+                </div>
+                <button type="submit" class="login-submit">Unlock</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Hero Section for Add Cards Page -->
+    <section class="add-cards-hero">
+        <div class="container">
+            <h1>Add New Index Cards</h1>
+            <p>Create and add new flashcards to help with your Geodetic Engineering exam preparation.</p>
+            <div id="editStatusIndicator" class="edit-status">Edit Mode: Active</div>
+            <a href="indexcards.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Folders</a>
+        </div>
+    </section>
+    
+    <!-- Add Card Form Section -->
+    <section class="add-card-section">
+        <div class="container">
+            <div class="add-card-form">
+                <h2>Create New Card</h2>
+                <form id="newCardForm">
+                    <div class="form-row">
+                        <label for="cardSubject">Subject Folder</label>
+                        <select id="cardSubject" required>
+                            <option value="">-- Select a Subject --</option>
+                            <option value="Geodesy">Geodesy</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="Theory">Theory & Practice</option>
+                            <option value="Laws">Laws & Regulations</option>
+                            <option value="Cartography">Cartography</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label for="cardQuestion">Question</label>
+                        <textarea id="cardQuestion" placeholder="Enter the front side (question) of the card" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <label for="cardAnswer">Answer</label>
+                        <textarea id="cardAnswer" placeholder="Enter the back side (answer) of the card" required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" onclick="window.location.href='indexcards.html'">Cancel</button>
+                        <button type="submit" class="save-btn">Save Card</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About</h3>
+                    <p>The Geodetic Engineering Reviewer is an online self-assessment platform designed to help students prepare for their examinations.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="indexcards.html">Index Cards</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="feedback.html">Feedback</a></li>
+                        <li><a href="protest.html">Protest</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="aboutus.html">About Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Manila, Philippines</li>
+                        <li><i class="fas fa-phone"></i> +63 123 456 7890</li>
+                        <li><i class="fas fa-envelope"></i> info@geodeticreviewer.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Geodetic Engineering Reviewer. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="indexcards.js"></script>
+    <script>
+        // DOM Elements
+        const newCardForm = document.getElementById('newCardForm');
+        
+        // Check if user has edit access
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!checkEditAccess()) {
+                // Redirect to index cards page if no edit access
+                alert('You need to unlock edit features to add new cards.');
+                window.location.href = 'indexcards.html';
+            }
+        });
+        
+        // Handle form submission
+        newCardForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const subject = document.getElementById('cardSubject').value;
+            const question = document.getElementById('cardQuestion').value;
+            const answer = document.getElementById('cardAnswer').value;
+            
+            // Create card data object
+            const cardData = {
+                subject: subject,
+                question: question,
+                answer: answer
+            };
+            
+            // Add card to Firebase
+            addIndexCard(cardData)
+                .then(() => {
+                    alert('Card added successfully!');
+                    // Clear form
+                    newCardForm.reset();
+                    // Redirect to view the new card's folder
+                    if (confirm('Would you like to view the cards in this folder?')) {
+                        window.location.href = 'card-viewer.html?folder=' + encodeURIComponent(subject);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error adding card:', error);
+                    if (error === 'Edit access required') {
+                        // Show edit password modal
+                        showEditPasswordModal();
+                    } else {
+                        alert('Failed to add card: ' + error.message);
+                    }
+                });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam - Geodetic Engineering Reviewer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="exam.css">
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-globe-americas logo-icon"></i>
+                <span>Geodetic Engineering Reviewer</span>
+            </div>
+            <div class="exam-info">
+                <h2 id="exam-subject" class="subject-display">Subject: Loading...</h2>
+                <p>80 Questions • 120 Minutes • 70% Passing</p>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Timer -->
+    <div class="timer-container">
+        <div class="container">
+            <div class="timer" id="exam-timer">2:00:00</div>
+        </div>
+    </div>
+    
+    <!-- Exam Container -->
+    <div class="container">
+        <div class="exam-container">
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar" id="exam-progress"></div>
+            </div>
+            
+            <!-- Simplified Question Navigation -->
+            <div class="question-nav">
+                <h3 class="question-nav-title">
+                    Progress: <span id="answered-count">0</span>/<span id="total-questions">80</span> questions answered
+                    (<span class="answered-count" id="answered-percentage">0%</span>)
+                </h3>
+                <div class="question-jump">
+                    <input type="number" class="question-jump-input" id="question-jump-input" min="1" max="80" placeholder="Go to...">
+                    <button class="question-jump-btn" id="question-jump-btn">Go</button>
+                </div>
+            </div>
+            
+            <!-- Question Container -->
+            <div id="question-container">
+                <div id="loading-questions" class="loading-spinner">
+                    <div class="spinner"></div>
+                </div>
+                
+                <div id="question-content" style="display: none;">
+                    <div class="question-header">
+                        <div class="question-number" id="question-number">Question 1 of 80</div>
+                        <div class="question-topic" id="question-topic">Topic</div>
+                    </div>
+                    <div class="question-text" id="question-text">
+                        Loading question...
+                    </div>
+                    <!-- Question image if applicable -->
+                    <div id="question-image-container" style="display: none;">
+                        <img src="" alt="Question Image" class="question-image" id="question-image">
+                    </div>
+                    <ul class="options-list" id="options-list">
+                        <!-- Options will be generated here -->
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Navigation Buttons -->
+            <div class="exam-navigation">
+                <button class="nav-button" id="prev-btn" disabled>
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+                <button class="nav-button" id="next-btn">
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="nav-button submit-btn" id="submit-btn">
+                    Submit Exam <i class="fas fa-check"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Submit Confirmation Modal -->
+    <div class="modal-overlay" id="submit-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Submit Exam</h3>
+                <button class="modal-close" id="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to submit this exam?</p>
+                <p id="unanswered-questions"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button cancel" id="cancel-submit">Cancel</button>
+                <button class="modal-button confirm" id="confirm-submit">Submit</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Instructions Modal -->
+    <div class="modal-overlay active" id="instructions-modal">
+        <div class="modal instruction-modal">
+            <div class="modal-header">
+                <h3 class="modal-title">GeodeticExam: <span id="instruction-subject" class="subject-display"></span> – Exam Instructions</h3>
+            </div>
+            <div class="modal-body instruction-body">
+                <div class="instruction-item">
+                    <div class="instruction-label">Subject:</div>
+                    <div class="instruction-value subject-display" id="instruction-subject-value"></div>
+                </div>
+                <div class="instruction-item">
+                    <div class="instruction-label">Total Items:</div>
+                    <div class="instruction-value">80</div>
+                </div>
+                <div class="instruction-item">
+                    <div class="instruction-label">Time Limit:</div>
+                    <div class="instruction-value">120 minutes</div>
+                </div>
+                <div class="instruction-item">
+                    <div class="instruction-label">Passing Score:</div>
+                    <div class="instruction-value">70%</div>
+                </div>
+                
+                <h4 class="instruction-section-title">Instructions:</h4>
+                <ul class="instruction-list">
+                    <li>Read each question carefully. Select the best answer for each item.</li>
+                    <li>Use the <strong>"Previous"</strong> and <strong>"Next"</strong> buttons to navigate between questions.</li>
+                    <li>Your answers are saved automatically as you select them.</li>
+                    <li>The <strong>"Submit Exam"</strong> button will appear after answering all questions.</li>
+                    <li>The exam will submit automatically when <strong>time expires</strong>.</li>
+                </ul>
+                
+                <h4 class="instruction-section-title">Reminders:</h4>
+                <ul class="instruction-list">
+                    <li>Mobile phones are not allowed during the exam.</li>
+                    <li>Check your calculator if it is allowed by the Professional Regulation Commission (PRC).</li>
+                </ul>
+                
+                <h4 class="instruction-section-title">Academic Honesty Statement:</h4>
+                <p class="instruction-text">This practice exam is for self-assessment. Please answer independently.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button confirm" id="start-exam-btn">Start Exam</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Enhanced Countdown Overlay -->
+    <div class="countdown-overlay" id="countdown-overlay" style="display: none;">
+        <!-- Blurred background question elements -->
+        <div class="blurred-question-bg">
+            <div class="bg-question-card bg-question-1">
+                <div class="bg-question-title"></div>
+                <div class="bg-question-content"></div>
+                <div class="bg-question-content"></div>
+                <div class="bg-question-content"></div>
+                <div class="bg-question-options">
+                    <div class="bg-option"></div>
+                    <div class="bg-option"></div>
+                    <div class="bg-option"></div>
+                    <div class="bg-option"></div>
+                </div>
+            </div>
+            <div class="bg-question-card bg-question-2">
+                <div class="bg-question-title"></div>
+                <div class="bg-question-content"></div>
+                <div class="bg-question-content"></div>
+                <div class="bg-question-options">
+                    <div class="bg-option"></div>
+                    <div class="bg-option"></div>
+                    <div class="bg-option"></div>
+                    <div class="bg-option"></div>
+                </div>
+            </div>
+            <div class="bg-question-card bg-question-3">
+                <div class="bg-question-title"></div>
+                <div class="bg-question-content"></div>
+                <div class="bg-question-content"></div>
+                <div class="bg-question-content"></div>
+                <div class="bg-question-options">
+                    <div class="bg-option"></div>
+                    <div class="bg-option"></div>
+                    <div class="bg-option"></div>
+                    <div class="bg-option"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main countdown content -->
+        <div class="countdown-content">
+            <div class="countdown-number" id="countdown-number">10</div>
+            <div class="countdown-text">Exam starting soon... Good luck future engineer!</div>
+            
+            <!-- Loading elements -->
+            <div class="loading-text">Preparing your examination</div>
+            <div class="loading-bar">
+                <div class="loading-progress" id="loading-progress"></div>
+            </div>
+            
+            <!-- Status message with typing effect -->
+            <div class="loading-status">
+                <span class="typing-animation" id="loading-status-text">Loading and shuffling questions...</span>
+            </div>
+            
+            <!-- Question shuffle animation -->
+            <div class="shuffle-container">
+                <div class="shuffle-card">Q1</div>
+                <div class="shuffle-card">Q2</div>
+                <div class="shuffle-card">Q3</div>
+                <div class="shuffle-card">Q4</div>
+                <div class="shuffle-card">Q5</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript for Firebase Config -->
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhHCA9CF_9D_2d-cD7B7S3YlT1NqtF6aI",
+            authDomain: "geodetic-online-examination.firebaseapp.com",
+            projectId: "geodetic-online-examination",
+            storageBucket: "geodetic-online-examination.appspot.com",
+            messagingSenderId: "969654297831",
+            appId: "1:969654297831:web:2aad20782023935f46ae42",
+            measurementId: "G-08N38SCD9S"
+        };
+
+        // Initialize Firebase
+        try {
+            firebase.initializeApp(firebaseConfig);
+            console.log("Firebase initialized successfully.");
+        } catch (e) {
+            console.error("Error initializing Firebase:", e);
+            alert("Error connecting to the question database. Please try again later.");
+        }
+
+        // Initialize Firestore
+        let db, storage, questionsCollection;
+        if (typeof firebase !== 'undefined' && firebase.app) {
+            try {
+                db = firebase.firestore();
+                storage = firebase.storage();
+                questionsCollection = db.collection('questions');
+                console.log("Firebase services initialized.");
+            } catch(e) {
+                console.error("Error getting Firebase service references:", e);
+            }
+        }
+    </script>
+    
+    <!-- Main JavaScript -->
+    <script src="exam.js"></script>
+</body>
+</html>

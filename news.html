@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News - Geodetic Engineering Reviewer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f6fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .logo-icon {
+            font-size: 28px;
+            color: var(--secondary-color);
+        }
+        
+        /* Navigation Styles */
+        nav ul {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            align-items: center;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Login Button Style */
+        .login-button {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 15px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .login-button:hover {
+            background-color: #c0392b;
+        }
+        
+        /* Login Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 80%;
+            max-width: 400px;
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .login-submit {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .login-submit:hover {
+            background-color: #2980b9;
+        }
+        
+        /* Page Header */
+        .page-header {
+            background-color: white;
+            padding: 30px 0;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .page-title {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .page-description {
+            color: #7f8c8d;
+            max-width: 800px;
+        }
+        
+        /* Featured News */
+        .featured-news {
+            margin-bottom: 40px;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .featured-news-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .featured-image {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .featured-content {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .featured-label {
+            background-color: var(--secondary-color);
+            color: white;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .featured-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .featured-date {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .featured-excerpt {
+            margin-bottom: 20px;
+            color: #555;
+        }
+        
+        /* Handle case with no image for featured news */
+        .featured-news-container.no-image {
+            grid-template-columns: 1fr;
+        }
+        
+        .featured-news-container.no-image .featured-content {
+            padding: 40px;
+        }
+        
+        /* News Cards */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .news-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        /* News card without image */
+        .news-card.no-image .news-content {
+            border-top: 4px solid var(--secondary-color);
+        }
+        
+        .news-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .news-date {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .news-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .news-excerpt {
+            color: #555;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+        
+        .read-more {
+            display: inline-block;
+            color: var(--secondary-color);
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s;
+            margin-top: auto;
+        }
+        
+        .read-more:hover {
+            color: #2980b9;
+        }
+        
+        /* Loading State */
+        .loading-container {
+            text-align: center;
+            padding: 50px 0;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--secondary-color);
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 50px 0;
+        }
+        
+        .empty-state-icon {
+            font-size: 50px;
+            color: #bdc3c7;
+            margin-bottom: 20px;
+        }
+        
+        .empty-state-text {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .footer-section h3:after {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 2px;
+            background-color: var(--secondary-color);
+            margin-top: 5px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .social-links a {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #bdc3c7;
+        }
+        
+        /* News Detail Modal */
+        .news-detail-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .news-detail-modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+        
+        .news-detail-container {
+            background-color: white;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            animation: modal-fade-in 0.3s ease-out;
+        }
+        
+        @keyframes modal-fade-in {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .news-detail-header {
+            position: relative;
+        }
+        
+        .news-detail-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        
+        /* Style for news detail without image */
+        .news-detail-header.no-image {
+            height: 20px;
+            background-color: var(--secondary-color);
+        }
+        
+        .news-detail-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .news-detail-close:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        
+        .news-detail-content {
+            padding: 30px;
+        }
+        
+        .news-detail-meta {
+            margin-bottom: 20px;
+        }
+        
+        .news-detail-date {
+            color: #7f8c8d;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .news-detail-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        .news-detail-body {
+            line-height: 1.8;
+            color: #333;
+            white-space: pre-line;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .featured-news-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured-image {
+                height: 250px;
+            }
+            
+            .featured-content {
+                padding: 25px;
+            }
+            
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .news-detail-modal.active {
+                padding: 20px 10px;
+            }
+            
+            .news-detail-image {
+                height: 200px;
+            }
+            
+            .news-detail-content {
+                padding: 20px;
+            }
+            
+            .news-detail-title {
+                font-size: 1.5rem;
+            }
+            
+        }
+        
+    </style>
+    
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-globe-americas logo-icon"></i>
+                <span>Geodetic Engineering Reviewer</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="news.html">News</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                    <li><a href="protest.html">Protest</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="aboutus.html">About Us</a></li>
+                    <li><button id="loginBtn" class="login-button">Login</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="login-submit">Login</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">Latest News & Updates</h1>
+            <p class="page-description">Stay up-to-date with the latest announcements, feature updates, and news about the Geodetic Engineering Reviewer platform.</p>
+        </div>
+    </section>
+    
+    <!-- Featured News Section -->
+    <div class="container" id="featured-news-container">
+        <!-- Featured news will be dynamically loaded here -->
+        <div class="loading-container">
+            <div class="loading-spinner"></div>
+            <p>Loading featured news...</p>
+        </div>
+    </div>
+    
+    <!-- News Grid -->
+    <div class="container">
+        <div class="news-grid" id="news-grid">
+            <!-- News cards will be dynamically loaded here -->
+            <div class="loading-container">
+                <div class="loading-spinner"></div>
+                <p>Loading news articles...</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- News Detail Modal -->
+    <div class="news-detail-modal" id="news-detail-modal">
+        <div class="news-detail-container">
+            <div class="news-detail-header" id="modal-header">
+                <img src="" alt="News detail" class="news-detail-image" id="modal-image">
+                <div class="news-detail-close" id="close-modal">&times;</div>
+            </div>
+            <div class="news-detail-content">
+                <div class="news-detail-meta">
+                    <div class="news-detail-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span id="modal-date">May 3, 2025</span>
+                    </div>
+                </div>
+                <h2 class="news-detail-title" id="modal-title">News Title</h2>
+                <div class="news-detail-body" id="modal-content">
+                    News content will appear here.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About</h3>
+                    <p>The Geodetic Engineering Reviewer is an online self-assessment platform designed to help students prepare for their examinations.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="feedback.html">Feedback</a></li>
+                        <li><a href="protest.html">Protest</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="aboutus.html">About Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Manila, Philippines</li>
+                        <li><i class="fas fa-phone"></i> +63 123 456 7890</li>
+                        <li><i class="fas fa-envelope"></i> info@geodeticreviewer.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Geodetic Engineering Reviewer. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Configuration -->
+    <script>
+        // Firebase configuration - Replace with your actual Firebase project config
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhHCA9CF_9D_2d-cD7B7S3YlT1NqtF6aI",
+            authDomain: "geodetic-online-examination.firebaseapp.com",
+            projectId: "geodetic-online-examination",
+            storageBucket: "geodetic-online-examination.appspot.com",
+            messagingSenderId: "969654297831",
+            appId: "1:969654297831:web:2aad20782023935f46ae42",
+            measurementId: "G-08N38SCD9S"
+        };
+
+        // Initialize Firebase
+        try {
+            firebase.initializeApp(firebaseConfig);
+            console.log("Firebase initialized successfully.");
+        } catch (e) {
+            console.error("Error initializing Firebase:", e);
+        }
+
+        // Initialize Firestore
+        const db = firebase.firestore();
+        const newsCollection = db.collection('news');
+    </script>
+
+    <!-- News Handling Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load news content
+            loadNews();
+
+            // Set up modal close event
+            document.getElementById('close-modal').addEventListener('click', closeNewsModal);
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeNewsModal();
+            });
+            
+            // Login Modal Setup
+            const modal = document.getElementById("loginModal");
+            const loginBtn = document.getElementById("loginBtn");
+            const closeBtn = document.getElementsByClassName("close")[0];
+            const loginForm = document.getElementById("loginForm");
+            
+            // When the user clicks the login button, open the modal
+            loginBtn.onclick = function() {
+                modal.style.display = "block";
+            }
+            
+            // When the user clicks on <span> (x), close the modal
+            closeBtn.onclick = function() {
+                modal.style.display = "none";
+            }
+            
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+            
+            // Handle login form submission
+            loginForm.addEventListener("submit", function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("password").value;
+                
+                // Check if it's an admin email
+                if (email.endsWith("gmail.com")) {
+                    // Redirect directly to admin page without password check
+                    window.location.href = "admin.html";
+                } else if (email === "geodeticeexam.gmail.com" && password === "shamgod1062") {
+                    // Original admin credentials still work too
+                    window.location.href = "admin.html";
+                } else {
+                    // For non-admin users or incorrect credentials
+                    alert("Invalid credentials. Please try again.");
+                }
+            });
+        });
+
+        // Function to load news from Firestore
+        async function loadNews() {
+            try {
+                // Query news articles that are published
+                const newsQuery = newsCollection.where('status', '==', 'published')
+                                                .orderBy('createdAt', 'desc');
+                const snapshot = await newsQuery.get();
+
+                // Check if we have any news articles
+                if (snapshot.empty) {
+                    showEmptyState();
+                    return;
+                }
+
+                // Process the news articles
+                const newsArticles = [];
+                let featuredArticle = null;
+
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const article = {
+                        id: doc.id,
+                        title: data.title,
+                        content: data.content,
+                        imageUrl: data.imageUrl || null, // Set to null if no image
+                        createdAt: data.createdAt,
+                        featured: data.featured || false
+                    };
+
+                    // If it's featured and we don't have a featured article yet, set it
+                    if (article.featured && !featuredArticle) {
+                        featuredArticle = article;
+                    } else {
+                        newsArticles.push(article);
+                    }
+                });
+
+                // Display featured article if we have one
+                if (featuredArticle) {
+                    displayFeaturedNews(featuredArticle);
+                } else if (newsArticles.length > 0) {
+                    // No featured article, display the first one as featured
+                    displayFeaturedNews(newsArticles.shift());
+                } else {
+                    // Hide the featured container if no articles
+                    document.getElementById('featured-news-container').style.display = 'none';
+                }
+
+                // Display the rest of the news articles
+                displayNewsGrid(newsArticles);
+
+            } catch (error) {
+                console.error("Error loading news:", error);
+                showErrorState(error.message);
+            }
+        }
+
+        // Function to display featured news
+        function displayFeaturedNews(article) {
+            const featuredContainer = document.getElementById('featured-news-container');
+            if (!article) {
+                featuredContainer.style.display = 'none';
+                return;
+            }
+
+            const formattedDate = formatDate(article.createdAt);
+            
+            // Check if article has an image
+            const hasImage = article.imageUrl !== null;
+            
+            // Create HTML based on whether there's an image
+            let featuredHtml;
+            
+            if (hasImage) {
+                featuredHtml = `
+                    <div class="featured-news">
+                        <div class="featured-news-container">
+                            <img src="${article.imageUrl}" alt="${article.title}" class="featured-image">
+                            <div class="featured-content">
+                                <span class="featured-label">Featured</span>
+                                <h2 class="featured-title">${article.title}</h2>
+                                <div class="featured-date">
+                                    <i class="far fa-calendar-alt"></i>
+                                    <span>${formattedDate}</span>
+                                </div>
+                                <p class="featured-excerpt">${truncateText(article.content, 150)}</p>
+                                <a href="#" class="read-more" data-id="${article.id}">Read More <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // No image version
+                featuredHtml = `
+                    <div class="featured-news">
+                        <div class="featured-news-container no-image">
+                            <div class="featured-content">
+                                <span class="featured-label">Featured</span>
+                                <h2 class="featured-title">${article.title}</h2>
+                                <div class="featured-date">
+                                    <i class="far fa-calendar-alt"></i>
+                                    <span>${formattedDate}</span>
+                                </div>
+                                <p class="featured-excerpt">${truncateText(article.content, 200)}</p>
+                                <a href="#" class="read-more" data-id="${article.id}">Read More <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            featuredContainer.innerHTML = featuredHtml;
+
+            // Add event listener to the read more link
+            const readMoreLink = featuredContainer.querySelector('.read-more');
+            if (readMoreLink) {
+                readMoreLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openNewsDetail(article.id);
+                });
+            }
+        }
+
+        // Function to display news grid
+        function displayNewsGrid(articles) {
+            const newsGrid = document.getElementById('news-grid');
+            
+            if (!articles || articles.length === 0) {
+                newsGrid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="far fa-newspaper empty-state-icon"></i>
+                        <p class="empty-state-text">No additional news articles available at this time.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let newsHtml = '';
+            articles.forEach(article => {
+                const formattedDate = formatDate(article.createdAt);
+                const hasImage = article.imageUrl !== null;
+                
+                if (hasImage) {
+                    // Version with image
+                    newsHtml += `
+                        <div class="news-card" data-id="${article.id}">
+                            <img src="${article.imageUrl}" alt="${article.title}" class="news-image">
+                            <div class="news-content">
+                                <div class="news-date">
+                                    <i class="far fa-calendar-alt"></i>
+                                    <span>${formattedDate}</span>
+                                </div>
+                                <h3 class="news-title">${article.title}</h3>
+                                <p class="news-excerpt">${truncateText(article.content, 100)}</p>
+                                <a href="#" class="read-more" data-id="${article.id}">Read More <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Version without image
+                    newsHtml += `
+                        <div class="news-card no-image" data-id="${article.id}">
+                            <div class="news-content">
+                                <div class="news-date">
+                                    <i class="far fa-calendar-alt"></i>
+                                    <span>${formattedDate}</span>
+                                </div>
+                                <h3 class="news-title">${article.title}</h3>
+                                <p class="news-excerpt">${truncateText(article.content, 120)}</p>
+                                <a href="#" class="read-more" data-id="${article.id}">Read More <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            newsGrid.innerHTML = newsHtml;
+
+            // Add event listeners to all read more links
+            const readMoreLinks = newsGrid.querySelectorAll('.read-more');
+            readMoreLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openNewsDetail(link.getAttribute('data-id'));
+                });
+            });
+
+            // Also add event listeners to the entire card for better UX
+            const newsCards = newsGrid.querySelectorAll('.news-card');
+            newsCards.forEach(card => {
+                card.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('read-more')) {
+                        openNewsDetail(card.getAttribute('data-id'));
+                    }
+                });
+            });
+        }
+
+        // Function to open news detail modal
+        async function openNewsDetail(id) {
+            try {
+                const doc = await newsCollection.doc(id).get();
+                if (!doc.exists) {
+                    console.error("News article not found");
+                    return;
+                }
+
+                const data = doc.data();
+                const modal = document.getElementById('news-detail-modal');
+                const modalHeader = document.getElementById('modal-header');
+                const modalImage = document.getElementById('modal-image');
+                
+                // Check if article has an image
+                const hasImage = data.imageUrl !== null && data.imageUrl !== undefined;
+                
+                if (hasImage) {
+                    // Show image if available
+                    modalHeader.classList.remove('no-image');
+                    modalImage.style.display = 'block';
+                    modalImage.src = data.imageUrl;
+                } else {
+                    // Hide image section if no image
+                    modalHeader.classList.add('no-image');
+                    modalImage.style.display = 'none';
+                }
+                
+                // Set modal content
+                document.getElementById('modal-date').textContent = formatDate(data.createdAt);
+                document.getElementById('modal-title').textContent = data.title;
+                document.getElementById('modal-content').textContent = data.content;
+
+                // Show modal
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            } catch (error) {
+                console.error("Error opening news detail:", error);
+                alert("Error loading article details. Please try again.");
+            }
+        }
+
+        // Function to close news detail modal
+        function closeNewsModal() {
+            const modal = document.getElementById('news-detail-modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = ''; // Enable scrolling
+        }
+
+        // Function to show empty state
+        function showEmptyState() {
+            const featuredContainer = document.getElementById('featured-news-container');
+            const newsGrid = document.getElementById('news-grid');
+
+            featuredContainer.innerHTML = '';
+            newsGrid.innerHTML = `
+                <div class="empty-state">
+                    <i class="far fa-newspaper empty-state-icon"></i>
+                    <p class="empty-state-text">No news articles available at this time. Check back later!</p>
+                </div>
+            `;
+        }
+
+        // Function to show error state
+        function showErrorState(message) {
+            const featuredContainer = document.getElementById('featured-news-container');
+            const newsGrid = document.getElementById('news-grid');
+
+            featuredContainer.innerHTML = '';
+            newsGrid.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-exclamation-circle empty-state-icon" style="color: var(--accent-color);"></i>
+                    <p class="empty-state-text">Error loading news: ${message}</p>
+                    <button onclick="location.reload()" class="dashboard-button" style="margin-top: 15px;">
+                        <i class="fas fa-sync-alt"></i> Retry
+                    </button>
+                </div>
+            `;
+        }
+
+        // Helper function to format date
+        function formatDate(timestamp) {
+            if (!timestamp) return 'Unknown date';
+            
+            let date;
+            if (timestamp.toDate) {
+                // Firebase Timestamp object
+                date = timestamp.toDate();
+            } else if (timestamp.seconds) {
+                // Firebase Timestamp in seconds
+                date = new Date(timestamp.seconds * 1000);
+            } else {
+                // JavaScript Date or timestamp in milliseconds
+                date = new Date(timestamp);
+            }
+            
+            const months = [
+                'January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'
+            ];
+            
+            return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+        }
+
+        // Helper function to truncate text
+        function truncateText(text, maxLength) {
+            if (!text) return '';
+            
+            if (text.length <= maxLength) return text;
+            
+            return text.substring(0, maxLength) + '...';
+        }
+    </script>
+    
+    
+</body>
+</html>

@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Geodetic Engineering Reviewer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f6fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .logo-icon {
+            font-size: 28px;
+            color: var(--secondary-color);
+        }
+        
+        /* Navigation Styles */
+        nav ul {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            align-items: center;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Login Button Styles */
+        .login-button {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 15px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .login-button:hover {
+            background-color: #c0392b;
+        }
+        
+        /* Login Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 80%;
+            max-width: 400px;
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #333;
+        }
+        
+        .modal h2 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .login-submit {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .login-submit:hover {
+            background-color: #2980b9;
+        }
+        
+        /* Page Header */
+        .page-header {
+            background-color: white;
+            padding: 30px 0;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .page-title {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .page-description {
+            color: #7f8c8d;
+            max-width: 800px;
+        }
+        
+        /* Contact Container */
+        .contact-container {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        /* Contact Info Sidebar */
+        .contact-sidebar {
+            flex: 1;
+        }
+        
+        .sidebar-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-title {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .sidebar-icon {
+            color: var(--secondary-color);
+        }
+        
+        .contact-info-list {
+            list-style: none;
+            margin-bottom: 15px;
+        }
+        
+        .contact-info-list li {
+            margin-bottom: 15px;
+            padding-left: 35px;
+            position: relative;
+        }
+        
+        .contact-info-list li:last-child {
+            margin-bottom: 0;
+        }
+        
+        .contact-info-list li i {
+            position: absolute;
+            left: 0;
+            top: 3px;
+            width: 25px;
+            height: 25px;
+            color: var(--secondary-color);
+            font-size: 18px;
+        }
+        
+        .contact-info-list li strong {
+            display: block;
+            margin-bottom: 3px;
+            color: var(--primary-color);
+        }
+        
+        .contact-social {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .contact-social a {
+            width: 40px;
+            height: 40px;
+            background-color: var(--secondary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .contact-social a:hover {
+            background-color: var(--primary-color);
+        }
+        
+        .business-hours {
+            list-style: none;
+        }
+        
+        .business-hours li {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed #ddd;
+            padding: 8px 0;
+        }
+        
+        .business-hours li:last-child {
+            border-bottom: none;
+        }
+        
+        /* Map */
+        .map-container {
+            border-radius: 10px;
+            overflow: hidden;
+            height: 250px;
+            background-color: #ddd;
+        }
+        
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+            font-size: 1.2rem;
+            background-color: #f2f2f2;
+        }
+        
+        /* FAQ Section */
+        .faq-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px;
+        }
+        
+        .faq-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .faq-list {
+            list-style: none;
+        }
+        
+        .faq-item {
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+        
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+        
+        .faq-question {
+            font-weight: 500;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .faq-question i {
+            color: var(--secondary-color);
+            margin-top: 3px;
+        }
+        
+        .faq-answer {
+            padding-left: 25px;
+            color: #666;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .footer-section h3:after {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 2px;
+            background-color: var(--secondary-color);
+            margin-top: 5px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .social-links a {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #bdc3c7;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .contact-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-globe-americas logo-icon"></i>
+                <span>Geodetic Engineering Reviewer</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="news.html">News</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                    <li><a href="protest.html">Protest</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="aboutus.html">About Us</a></li>
+                    <li><button id="loginBtn" class="login-button">Login</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="login-submit">Login</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">Contact Us</h1>
+            <p class="page-description">Have questions or feedback? Here's how to reach our team.</p>
+        </div>
+    </section>
+    
+    <!-- Contact Info Section -->
+    <div class="container">
+        <div class="contact-container">
+            <div class="contact-sidebar" style="flex: 1;">
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <i class="fas fa-info-circle sidebar-icon"></i>
+                        Contact Information
+                    </h3>
+                    <ul class="contact-info-list">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <strong>Address:</strong>
+                            123 Geodetic Avenue, Manila, Philippines
+                        </li>
+                        <li>
+                            <i class="fas fa-phone-alt"></i>
+                            <strong>Phone:</strong>
+                            +63 123 456 7890
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <strong>Email:</strong>
+                            info@geodeticreviewer.com
+                        </li>
+                    </ul>
+                    
+                    <h4 style="margin-top: 20px; margin-bottom: 10px; font-size: 1rem; color: var(--primary-color);">Connect With Us:</h4>
+                    <div class="contact-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <i class="fas fa-clock sidebar-icon"></i>
+                        Business Hours
+                    </h3>
+                    <ul class="business-hours">
+                        <li>
+                            <span>Monday - Friday</span>
+                            <span>9:00 AM - 6:00 PM</span>
+                        </li>
+                        <li>
+                            <span>Saturday</span>
+                            <span>9:00 AM - 1:00 PM</span>
+                        </li>
+                        <li>
+                            <span>Sunday</span>
+                            <span>Closed</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <i class="fas fa-map-marked-alt sidebar-icon"></i>
+                        Our Location
+                    </h3>
+                    <div class="map-container">
+                        <div class="map-placeholder">
+                            <i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Map Location
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-sidebar" style="flex: 2;">
+                <!-- FAQ Section -->
+                <div class="faq-section">
+                    <h2 class="faq-title">Frequently Asked Questions</h2>
+                    <ul class="faq-list">
+                        <li class="faq-item">
+                            <div class="faq-question">
+                                <i class="fas fa-question-circle"></i>
+                                <span>How do I subscribe to the Geodetic Engineering Reviewer?</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>You can subscribe to our platform by clicking on the "Subscribe" button in the top right corner of our homepage. Follow the instructions to create an account and select your preferred subscription plan.</p>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <div class="faq-question">
+                                <i class="fas fa-question-circle"></i>
+                                <span>What payment methods do you accept?</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>We accept credit/debit cards, PayPal, GCash, and bank transfers. You can select your preferred payment method during the checkout process.</p>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <div class="faq-question">
+                                <i class="fas fa-question-circle"></i>
+                                <span>How often is the content updated?</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>We update our content regularly to ensure it remains accurate and relevant. Major updates are typically done quarterly, with minor updates and corrections implemented as needed.</p>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <div class="faq-question">
+                                <i class="fas fa-question-circle"></i>
+                                <span>Can I access the platform on my mobile device?</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Yes, our platform is fully responsive and can be accessed on any device including smartphones and tablets. We also offer a mobile app for Android and iOS devices for enhanced offline access.</p>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <div class="faq-question">
+                                <i class="fas fa-question-circle"></i>
+                                <span>How do I report a technical issue?</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>You can report technical issues by sending an email to support@geodeticreviewer.com with details about the issue you're experiencing. Our support team will respond within 24 hours.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About</h3>
+                    <p>The Geodetic Engineering Reviewer is an online self-assessment platform designed to help students prepare for their examinations.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="feedback.html">Feedback</a></li>
+                        <li><a href="protest.html">Protest</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="aboutus.html">About Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Manila, Philippines</li>
+                        <li><i class="fas fa-phone"></i> +63 123 456 7890</li>
+                        <li><i class="fas fa-envelope"></i> info@geodeticreviewer.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Geodetic Engineering Reviewer. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Get the modal
+        const modal = document.getElementById("loginModal");
+        
+        // Get the button that opens the modal
+        const btn = document.getElementById("loginBtn");
+        
+        // Get the <span> element that closes the modal
+        const span = document.getElementsByClassName("close")[0];
+        
+        // Login form
+        const loginForm = document.getElementById("loginForm");
+        
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+        
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+        
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        
+        // Handle login form submission
+        loginForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            
+            // Check if it's an admin email
+            if (email.endsWith("gmail.com")) {
+                // Redirect directly to admin page without password check
+                window.location.href = "admin.html";
+            } else if (email === "geodeticeexam.gmail.com" && password === "shamgod1062") {
+                // Original admin credentials still work too
+                window.location.href = "admin.html";
+            } else {
+                // For non-admin users or incorrect credentials
+                alert("Invalid credentials. Please try again.");
+            }
+        });
+    </script>
+</body>
+</html>

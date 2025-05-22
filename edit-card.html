@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Card - Geodetic Engineering Reviewer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="indexcards.css">
+    <link rel="stylesheet" href="card-viewer.css">
+    <link rel="stylesheet" href="edit-card.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-globe-americas logo-icon"></i>
+                <span>Geodetic Engineering Reviewer</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="indexcards.html">Index Cards</a></li>
+                    <li><a href="news.html">News</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                    <li><a href="protest.html">Protest</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="aboutus.html">About Us</a></li>
+                    <li><button id="loginBtn" class="login-button">Login</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="login-submit">Login</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Edit Password Modal -->
+    <div id="editPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="editPasswordClose">&times;</span>
+            <h2>Unlock Edit Features</h2>
+            <p>Please enter the password to access card editing features:</p>
+            <form id="editPasswordForm">
+                <div class="form-group">
+                    <label for="editPassword">Password</label>
+                    <input type="password" id="editPassword" placeholder="Enter the edit password" required>
+                </div>
+                <button type="submit" class="login-submit">Unlock</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Hero Section for Edit Card -->
+    <section class="card-viewer-hero">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="indexcards.html">Index Cards</a>
+                <span class="separator">/</span>
+                <span id="currentFolderName">Loading...</span>
+                <span id="topicBreadcrumb">
+                    <span class="separator">/</span>
+                    <span id="currentTopicName"></span>
+                </span>
+                <span class="separator">/</span>
+                <span>Edit Card</span>
+            </div>
+            
+            <h1 id="pageTitle">Edit Card</h1>
+            <p id="folderDescription">Flashcards on Property Surveying, Land Surveying, Astronomy, Engineering Surveys, and more.</p>
+            <div class="index-page-actions">
+                <a href="#" id="backToCardBtn" class="back-btn" title="Back to Card">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <a href="#" id="viewCardsBtn" class="view-cards-btn" title="View All Cards">
+                    <i class="fas fa-th"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Edit Card Form Section -->
+    <section class="edit-card-section">
+        <div class="container">
+            <div class="edit-card-container">
+                <div id="loadingMessage" class="loading-message">Loading card data...</div>
+                
+                <form id="editCardForm" style="display: none;">
+                    <div class="form-group">
+                        <label for="questionInput">Question</label>
+                        <textarea id="questionInput" placeholder="Enter the question" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="answerInput">Answer</label>
+                        <textarea id="answerInput" placeholder="Enter the answer" required></textarea>
+                    </div>
+                    
+                    <input type="hidden" id="cardId">
+                    <input type="hidden" id="cardSubject">
+                    <input type="hidden" id="cardTopic">
+                    
+                    <div class="preview-section">
+                        <h3>Preview</h3>
+                        <div class="card-preview">
+                            <div class="preview-card">
+                                <div class="preview-front" id="previewFront">
+                                    <p>Question preview will appear here</p>
+                                </div>
+                                <div class="preview-back" id="previewBack">
+                                    <p>Answer preview will appear here</p>
+                                </div>
+                            </div>
+                            <div class="preview-nav">
+                                <button type="button" id="previewToggleBtn" class="preview-toggle-btn">
+                                    <i class="fas fa-sync-alt"></i> Toggle Front/Back
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" id="cancelBtn" class="cancel-btn">Cancel</button>
+                        <button type="submit" id="saveBtn" class="save-btn">Save Changes</button>
+                    </div>
+                </form>
+                
+                <div id="errorMessage" class="error-message" style="display: none;">
+                    <h3>Error</h3>
+                    <p id="errorText"></p>
+                    <button id="errorBackBtn" class="back-btn">Back to Cards</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer id="mainFooter">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About</h3>
+                    <p>The Geodetic Engineering Reviewer is an online self-assessment platform designed to help students prepare for their examinations.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="feedback.html">Feedback</a></li>
+                        <li><a href="protest.html">Protest</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="aboutus.html">About Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Manila, Philippines</li>
+                        <li><i class="fas fa-phone"></i> +63 123 456 7890</li>
+                        <li><i class="fas fa-envelope"></i> info@geodeticreviewer.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Geodetic Engineering Reviewer. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="indexcards.js"></script>
+    <script src="edit-card.js"></script>
+</body>
+</html>

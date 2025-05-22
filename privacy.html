@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - GeodeticExam</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Apply Inter font globally */
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Define primary color variable for gradient */
+            --primary-color: #3b82f6; /* Example: Tailwind blue-500 */
+        }
+
+        /* Hero gradient style */
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #0056b3 100%); /* Blue gradient */
+        }
+
+        /* Dark mode icon visibility controlled by 'dark' class on <html> (Tailwind default) */
+        .dark .icon-sun { display: inline; } /* Show sun in dark mode */
+        .dark .icon-moon { display: none; }  /* Hide moon in dark mode */
+        .icon-sun { display: none; } /* Hide sun in light mode */
+        .icon-moon { display: inline; } /* Show moon in light mode */
+
+        /* Basic body styling using Tailwind classes */
+        body {
+           @apply bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex flex-col;
+        }
+
+        /* Footer styling */
+         footer {
+            @apply text-center text-gray-500 dark:text-gray-400 mt-10 py-6 border-t dark:border-gray-700;
+         }
+         .footer-links a {
+            @apply text-blue-500 hover:underline mx-3; /* Adjusted margin */
+         }
+
+         /* Main content container styling */
+         main {
+             @apply container mx-auto mt-8 px-4 max-w-3xl flex-grow; /* Adjusted max-width */
+         }
+         /* Styling for the main content block */
+         .content-block {
+             @apply bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mb-8;
+         }
+         /* Styling for headings and text within the content block */
+         .content-block h2 {
+             @apply text-2xl font-semibold mb-6 border-b pb-2 dark:border-gray-700;
+         }
+         .content-block h3 {
+             @apply text-xl font-semibold mb-3 mt-5;
+         }
+         .content-block p {
+             @apply mb-4 leading-relaxed text-base; /* Adjusted text size */
+         }
+         .content-block ul {
+             @apply list-disc list-inside mb-4 ml-4 space-y-1; /* Added spacing between list items */
+         }
+         .content-block a {
+             @apply text-blue-500 hover:underline;
+         }
+         .content-block strong {
+            @apply font-medium text-gray-900 dark:text-gray-100; /* Slightly bolder strong tags */
+         }
+
+         /* Style for the theme toggle button */
+         #theme-toggle {
+            @apply bg-gray-700/30 hover:bg-gray-700/50 p-2 rounded-full text-xl transition cursor-pointer;
+         }
+
+         /* Style for header icon */
+         .header-icon {
+             @apply inline-block w-7 h-7 mr-2 align-middle relative -top-px; /* Adjust size/position as needed */
+         }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200"> <header class="hero-gradient text-white p-6 rounded-b-xl shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-bold flex items-center">
+                    <svg class="header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" stroke="none">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                    Privacy Policy
+                </h1>
+            </div>
+            <button id="theme-toggle" aria-label="Toggle theme">
+                <span class="icon-sun">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                </span>
+                <span class="icon-moon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </span>
+            </button>
+        </div>
+    </header>
+
+    <main class="container mx-auto mt-8 px-4 max-w-3xl flex-grow">
+        <div class="content-block">
+            <h2 class="text-2xl font-semibold mb-6 border-b pb-2 dark:border-gray-700">Privacy Policy</h2>
+
+            <p><strong>Effective Date:</strong> May 2, 2025</p>
+            <p>Your privacy is important to us at GeodeticExam. This policy explains briefly what information we handle when you use our website.</p>
+
+            <h3 class="text-xl font-semibold mb-3 mt-5">What Information We Handle</h3>
+            <ul>
+                <li><strong>Optional Name:</strong> You can enter your name to see it on the results page. This is optional and stored only temporarily in your browser (`sessionStorage`) during your visit. We don't save it on our servers.</li>
+                <li><strong>Exam Data:</strong> While you take an exam, your questions and answers are stored temporarily in your browser (`sessionStorage`) so we can calculate your score and let you review them. This is cleared when you close the browser tab.</li>
+                <li><strong>Usage Info:</strong> We might collect general usage data (like browser type, pages visited) using tools like Firebase Analytics to help us improve the site. This is usually anonymous.</li>
+                <li><strong>Theme Preference:</strong> We save your light/dark mode choice in your browser (`localStorage`) so the site remembers it next time.</li>
+                <li><strong>Admin Login:</strong> If you access the admin panel, login details are processed (ideally securely via Firebase Authentication, though currently using a demo method).</li>
+            </ul>
+
+            <h3 class="text-xl font-semibold mb-3 mt-5">How We Use Information</h3>
+            <p>We use this information mainly to:</p>
+            <ul>
+                <li>Run the practice exams and show you your results.</li>
+                <li>Allow you to review your answers after an exam (during the same session).</li>
+                <li>Personalize your results page slightly if you provide your name.</li>
+                <li>Understand how the site is used so we can make it better (using anonymous data).</li>
+                <li>Operate and secure the website and admin functions.</li>
+            </ul>
+
+            <h3 class="text-xl font-semibold mb-3 mt-5">Sharing Information</h3>
+            <p>We don't sell or rent your optional name.</p>
+            <ul>
+                <li>We use <strong>Firebase (Google)</strong> for storing exam questions, images, and potentially for anonymous analytics. Google has its own privacy policy for how it handles data.</li>
+                <li>We might share information if required by law or to protect the site and users.</li>
+                <li>We might share anonymous, summarized usage data for analysis.</li>
+            </ul>
+
+            <h3 class="text-xl font-semibold mb-3 mt-5">Data Security</h3>
+            <p>We take steps to protect the site, but no online service is 100% secure. Remember that your optional name and exam answers are stored temporarily in your browser.</p>
+
+            <h3 class="text-xl font-semibold mb-3 mt-5">Your Rights</h3>
+            <p>You have rights regarding your data under privacy laws like the Philippines Data Privacy Act. Since we store very little personal data, the main thing is understanding how we use temporary browser storage and Firebase. You can clear browser storage (`sessionStorage`, `localStorage`) yourself.</p>
+
+            <h3 class="text-xl font-semibold mb-3 mt-5">Changes to This Policy</h3>
+            <p>We might update this policy. If we do, we'll change the "Effective Date" at the top.</p>
+
+            <h3 class="text-xl font-semibold mb-3 mt-5">Contact Us</h3>
+            <p>If you have questions, contact us at:</p>
+            <p>
+                [Your Name/Org Name]<br>
+                [Your Email Address]<br>
+                Puerto Princesa, Philippines
+            </p>
+        </div>
+         <div class="text-center mt-8 mb-4">
+             <a href="index.html" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-5 rounded-lg transition duration-200">
+                 ← Back to Home
+             </a>
+        </div>
+    </main>
+
+    <footer class="text-center text-gray-500 dark:text-gray-400 mt-10 py-6 border-t dark:border-gray-700">
+        <p>&copy; <span id="currentYear"></span> GeodeticExam. All rights reserved.</p>
+        <div class="footer-links mt-3">
+            <a href="about.html" class="text-blue-500 hover:underline mx-3">About</a>
+            <a href="privacy.html" class="text-blue-500 hover:underline mx-3">Privacy</a>
+            <a href="contact.html" class="text-blue-500 hover:underline mx-3">Contact</a>
+            <a href="admin.html" class="text-blue-500 hover:underline mx-3">Admin</a>
+        </div>
+    </footer>
+
+    <script>
+        // --- Dynamic Year in Footer ---
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // --- Theme Toggling Logic ---
+        const themeToggle = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement; // Target the <html> element
+
+        // Function to apply theme based on localStorage or system preference
+        const applyTheme = () => {
+            const storedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const currentTheme = storedTheme ? storedTheme : (prefersDark ? 'dark' : 'light');
+
+            // Use 'dark' class now for Tailwind compatibility
+            if (currentTheme === 'dark') {
+                htmlElement.classList.add('dark');
+            } else {
+                htmlElement.classList.remove('dark');
+            }
+        };
+
+        // Apply theme on initial page load
+        applyTheme();
+
+        // Event listener for the theme toggle button
+        themeToggle.addEventListener('click', () => {
+            // Toggle the 'dark' class on the <html> element
+            htmlElement.classList.toggle('dark');
+
+            // Determine the new theme state
+            let newTheme = 'light';
+            if (htmlElement.classList.contains('dark')) { // Check for 'dark' class
+                newTheme = 'dark';
+            }
+
+            // Save the new theme preference to localStorage
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Optional: Listen for changes in system theme preference
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+    </script>
+</body>
+</html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Viewer - Geodetic Engineering Reviewer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="indexcards.css">
+    <link rel="stylesheet" href="card-viewer.css">
+    <style>
+        body {
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .home-icon {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .home-icon:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .home-icon a {
+            color: #2196f3;
+            font-size: 20px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .card-viewer-hero {
+            padding: 60px 0 30px;
+        }
+        
+        header, footer {
+            display: none;
+        }
+        
+        .folder-item, .index-card, .topic-folder {
+            border: 1px solid #f0f0f0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .container {
+            padding: 0 20px;
+        }
+        
+        section {
+            margin-bottom: 40px;
+        }
+        
+        .card-statistics {
+            background-color: #fff;
+            border: 1px solid #f0f0f0;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .mastery-controls {
+            background-color: #fff;
+            border: 1px solid #f0f0f0;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .modal {
+            z-index: 1001;
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+</head>
+<body>
+    <div class="home-icon">
+        <a href="index.html" title="Go to Home Page">
+            <i class="fas fa-home"></i>
+        </a>
+    </div>
+    
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="login-submit">Login</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="editPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="editPasswordClose">&times;</span>
+            <h2>Unlock Edit Features</h2>
+            <p>Please enter the password to access card editing features:</p>
+            <form id="editPasswordForm">
+                <div class="form-group">
+                    <label for="editPassword">Password</label>
+                    <input type="password" id="editPassword" placeholder="Enter the edit password" required>
+                </div>
+                <button type="submit" class="login-submit">Unlock</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="addTopicModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="addTopicClose">&times;</span>
+            <h2>Add New Topic</h2>
+            <p>Enter a name for the new topic folder:</p>
+            <form id="addTopicForm">
+                <div class="form-group">
+                    <label for="topicName">Topic Name</label>
+                    <input type="text" id="topicName" placeholder="Enter topic name (e.g., RA8560)" required>
+                </div>
+                <button type="submit" class="login-submit">Add Topic</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="addSubtopicModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="addSubtopicClose">&times;</span>
+            <h2>Add New Subtopic</h2>
+            <p>Enter a name for the new subtopic:</p>
+            <form id="addSubtopicForm">
+                <input type="hidden" id="parentTopicInput" value="">
+                <div class="form-group">
+                    <label for="subtopicName">Subtopic Name</label>
+                    <input type="text" id="subtopicName" placeholder="Enter subtopic name" required>
+                </div>
+                <button type="submit" class="login-submit">Add Subtopic</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="deleteTopicDialog" class="confirmation-dialog" style="display: none;">
+        <h3>Delete Topic?</h3>
+        <p>Are you sure you want to delete this topic and all its cards? This action cannot be undone.</p>
+        <input type="hidden" id="deleteTopicSubject">
+        <input type="hidden" id="deleteTopicName">
+        <div class="actions">
+            <button class="cancel-btn" onclick="closeDeleteTopicDialog()">Cancel</button>
+            <button class="confirm-btn" onclick="executeDeleteTopic()">Delete</button>
+        </div>
+    </div>
+    <div id="confirmationOverlay" class="confirmation-overlay" style="display: none;"></div>
+    
+    <section class="card-viewer-hero">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="indexcards.html">Index Cards</a>
+                <span class="separator">/</span>
+                <span id="currentFolderName">Loading...</span>
+                <span id="topicBreadcrumb" style="display: none;">
+                    <span class="separator">/</span>
+                    <span id="currentTopicName"></span>
+                </span>
+            </div>
+            
+            <h1 id="folderTitle">Loading...</h1>
+            <p id="folderDescription">Flashcards on Property Surveying, Land Surveying, Astronomy, Engineering Surveys, and more.</p>
+            <div class="index-page-actions">
+                <div id="editStatusIndicator" class="edit-status edit-locked" title="Edit Mode: Locked">
+                    <i class="fas fa-lock"></i> Edit Mode: Locked
+                </div>
+                <button onclick="showEditPasswordModal()" class="unlock-edit-btn" title="Unlock Edit Features">
+                    <i class="fas fa-unlock"></i> Unlock
+                </button>
+                <button onclick="showAddSubtopicModal()" class="add-topic-btn edit-control disabled" disabled title="Add Topic">
+                    <i class="fas fa-folder-plus"></i> Add Topic
+                </button>
+                <a href="indexcards.html" class="back-btn" title="Back to Folders">
+                    <i class="fas fa-arrow-left"></i> Back
+                </a>
+                <a id="viewCardsBtn" href="#" class="view-cards-btn" title="View Cards">
+                    <i class="fas fa-th"></i>
+                </a>
+                
+                <button id="fullscreenBtn" class="fullscreen-btn" title="Enter fullscreen mode">
+                    <i class="fas fa-expand"></i>
+                </button>
+                
+                <button id="shuffleBtn" class="shuffle-btn" title="Shuffle cards" onclick="shuffleCards()">
+                    <i class="fas fa-random"></i>
+                </button>
+                
+                <button id="masteryModeBtn" class="mastery-mode-btn" title="Enter Mastery Mode">
+                    <i class="fas fa-brain"></i> Mastery Mode
+                </button>
+
+                <div class="sort-controls">
+                    <label for="sortOrder"><i class="fas fa-sort-amount-down"></i> Sort:</label>
+                    <select id="sortOrder" title="Sort cards by upload time">
+                        <option value="default">Default</option>
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cards-section" id="cardsSection">
+        <div class="container">
+            <div class="card-statistics">
+                <div class="stat-item">
+                    <span class="stat-number" id="totalTopicsCount">0</span>
+                    <span class="stat-label">Topics</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalCardsCount">0</span>
+                    <span class="stat-label">Total Cards</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="avgCardsPerTopic">0</span>
+                    <span class="stat-label">Avg Cards/Topic</span>
+                </div>
+            </div>
+            
+            <div id="masteryControls" class="mastery-controls">
+                <div class="mastery-progress">
+                    <div class="progress-header">
+                        <h3>Mastery Progress</h3>
+                        <button id="resetMasteryBtn" class="reset-mastery-btn">
+                            <i class="fas fa-redo-alt"></i> Reset
+                        </button>
+                    </div>
+                    <div id="masteryProgressBar" class="mastery-progress-bar">
+                        <div class="mastered" style="width: 0%"></div>
+                        <div class="needs-practice" style="width: 0%"></div>
+                        <div class="unknown" style="width: 100%"></div>
+                    </div>
+                    <div class="mastery-stats">
+                        <div class="stat-item mastered-stat">
+                            <span class="stat-label">Mastered</span>
+                            <span id="masteredCount" class="stat-number">0</span>
+                        </div>
+                        <div class="stat-item needs-practice-stat">
+                            <span class="stat-label">Needs Practice</span>
+                            <span id="needsPracticeCount" class="stat-number">0</span>
+                        </div>
+                        <div class="stat-item unknown-stat">
+                            <span class="stat-label">Not Reviewed</span>
+                            <span id="unknownCount" class="stat-number">0</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mastery-shortcuts-icon">
+                    <i class="fas fa-keyboard" title="Use ↑/↓ to mark mastery, Space to flip"></i>
+                </div>
+            </div>
+            
+            <div id="topicsContainer" class="topics-container">
+                </div>
+            
+            <div id="cardContainer" class="card-container">
+                <div class="loading-message">Loading cards...</div>
+            </div>
+            
+            <div id="cardNavigation" class="card-navigation" style="display: none;">
+                <button id="prevCardBtn" class="nav-btn prev-btn" disabled title="Previous card (Left arrow key)">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <span id="cardCounter">Card 1 of 2</span>
+                <button id="nextCardBtn" class="nav-btn next-btn" disabled title="Next card (Right arrow key)">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            
+            <button id="exitFullscreenBtn" class="exit-fullscreen-btn" style="display: none;" title="Exit fullscreen mode">
+                <i class="fas fa-compress"></i>
+            </button>
+            
+            <div id="noTopicsMessage" class="empty-state" style="display: none;">
+                <i class="fas fa-folder-open"></i>
+                <h3>No topics found</h3>
+                <p>Create topics to organize your cards better!</p>
+                <button onclick="showAddSubtopicModal()" class="action-btn edit-control disabled" disabled>
+                    <i class="fas fa-folder-plus"></i> Add Topic
+                </button>
+            </div>
+            
+            <div id="noCardsMessage" class="empty-state" style="display: none;">
+                <i class="fas fa-sticky-note"></i>
+                <h3>No cards found in this topic</h3>
+                <p>Be the first to add cards to this topic!</p>
+                <button class="action-btn edit-control disabled" onclick="showAddCardForm()" disabled>
+                    <i class="fas fa-plus"></i> Add Card
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <section id="inlineAddCardSection" class="inline-add-card" style="display: none;">
+        <div class="container">
+            <div class="add-card-form">
+                <h2>Add New Card</h2>
+                <form id="inlineAddCardForm">
+                    <div class="form-row">
+                        <label for="cardQuestion">Question</label>
+                        <textarea id="cardQuestion" placeholder="Enter the front side (question) of the card" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <label for="cardAnswer">Answer</label>
+                        <textarea id="cardAnswer" placeholder="Enter the back side (answer) of the card" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <label for="cardImageUpload">Card Image (Optional)</label>
+                        <input type="file" id="cardImageUpload" accept="image/*" class="image-upload-input">
+                        <div id="imagePreview"></div> <div class="upload-progress-container" style="display: none;">
+                            <div id="uploadProgress"></div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="cardSubject">
+                    <input type="hidden" id="cardTopic">
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" onclick="hideAddCardForm()">Cancel</button>
+                        <button type="submit" class="save-btn">Save Card</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <template id="topicFolderTemplate">
+        <div class="folder-item topic-folder" data-topic-id="" data-topic-name="">
+            <div class="folder-icon">
+                <i class="fas fa-folder"></i>
+                <span class="topic-card-count">0</span>
+            </div>
+            <div class="folder-content">
+                <h3>Topic Name</h3>
+                <span class="card-count">0 cards</span>
+                <a href="#" class="folder-link">Open Topic</a>
+            </div>
+            <div class="topic-actions">
+                <button class="add-subtopic-btn edit-control disabled" onclick="showAddSubtopicModal(''); event.stopPropagation();" disabled title="Add Subtopic">
+                    <i class="fas fa-folder-plus"></i>
+                </button>
+                <button class="delete-topic-btn edit-control disabled" onclick="showDeleteTopicDialog('', ''); event.stopPropagation();" disabled title="Delete Topic">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+        </div>
+    </template>
+    
+    <template id="cardActionsTemplate">
+        <div class="card-tools">
+            <button class="flip-btn" onclick="flipCard(this)">
+                <i class="fas fa-sync-alt"></i> Show Answer
+            </button>
+            <a href="#" class="view-single-btn">
+                <i class="fas fa-expand"></i>
+            </a>
+            <button class="edit-button edit-control disabled" onclick="showInlineEditFormWithImage(''); event.stopPropagation();" disabled>
+                <i class="fas fa-edit"></i> Edit
+            </button>
+            <button class="delete-btn edit-control disabled" onclick="deleteCard(''); event.stopPropagation();" disabled>
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        </div>
+    </template>
+    
+    <button id="floatingAddBtn" class="floating-add-btn edit-control disabled" onclick="showAddCardForm()" disabled title="Add new flashcard">
+        <i class="fas fa-plus"></i>
+    </button>
+    
+    <script src="indexcards.js"></script>
+    <script src="card-viewer.js"></script>
+    <script src="card-sorter.js"></script> 
+</body>
+</html>
